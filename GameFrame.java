@@ -56,7 +56,7 @@ public class GameFrame extends JLayeredPane {
                 deltaTime += TIME_STEP;
 
                 while (deltaTime >= TIME_STEP) {
-                    car.move(TIME_STEP, track);
+                    car.move(TIME_STEP);
                     deltaTime -= TIME_STEP;
 
                     int tileX = (int) Math.round(car.x);
