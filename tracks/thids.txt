@@ -1,0 +1,11 @@
+10,10
+empty,empty,empty,empty,empty,empty,empty,empty,empty,empty,
+empty,empty,empty,empty,empty,empty,empty,empty,empty,empty,
+empty,empty,empty,empty,empty,empty,empty,empty,empty,empty,
+empty,empty,empty,empty,empty,empty,empty,empty,empty,empty,
+empty,empty,up_right,up_right,up_right,up_right,up_right,finish,empty,empty,
+empty,empty,up_straight,empty,empty,empty,empty,empty,empty,empty,
+empty,empty,up_straight,empty,empty,empty,empty,empty,empty,empty,
+empty,empty,up_straight,empty,empty,empty,empty,empty,empty,empty,
+empty,empty,start,empty,empty,empty,empty,empty,empty,empty,
+empty,empty,empty,empty,empty,empty,empty,empty,empty,empty,

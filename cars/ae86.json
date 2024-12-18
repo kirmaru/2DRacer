@@ -1,0 +1,7 @@
+{
+    "imagePath": "textures/ae86.png",
+    "maxSpeed": 6.0,
+    "acceleration": 0.5,
+    "brake": 5.0,
+    "friction": 1.0
+}
