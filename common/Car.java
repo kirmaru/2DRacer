@@ -19,7 +19,7 @@ public class Car {
     private static final int MAX_GEARS = 3;
 
     private static final double TURN_LIMIT = 2000.0;
-    private static final double TURN_RATE = 5.0;
+    private static final double TURN_RATE = 3.0;
 
     public Car(int startX, int startY, double startAngle) {
         this.x = startX;

@@ -78,7 +78,7 @@ public class Shop extends JPanel {
         int carPrice = carPrices[currentPage];
         if (scoreManager.getScore() >= carPrice) {
             // Player can afford the car
-            scoreManager.deductPoints(carPrice);
+            scoreManager.spendPoints(carPrice);
             addCarToPlayer();
             JOptionPane.showMessageDialog(this, "Вы купили " + (currentPage == 0 ? "AE86" : "Silvia") + "!");
         } else {
