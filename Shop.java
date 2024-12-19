@@ -1,130 +1,82 @@
-//package shop;
-
-import common.Car;
-import common.ScoreManager;
-import org.json.JSONObject;
-
-import javax.swing.*;
+import common.Player;
 import java.awt.*;
-import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.nio.file.Files;
+import javax.swing.*;
 
 public class Shop extends JPanel {
-    private Car playerCar; // Reference to the player's car
-    private int currentPage = 0; // 0 for AE86, 1 for Silvia
-    private static final String[] carTextures = {"textures/ae86.png", "textures/silvia.png"};
-    private static final double[][] carAttributes = {
-        {6.0, 0.5, 5.0}, // AE86: maxSpeed, acceleration, friction
-        {15.0, 0.4, 3.5} // Silvia: maxSpeed, acceleration, friction
-    };
-    private static final int[] carPrices = {1000, 5000}; // Prices for AE86 and Silvia
-    private static final String PLAYER_INFO_FILE = "playerInfo.json";
+    private Player player; // Объект игрока
+    private int currentPage = 0; // Текущая страница магазина (0 для AE86, 1 для Silvia)
+    private static final int[] carPrices = {1000, 5000};
+    private static final String[] carTypes = {"ae86", "silvia"};
+    private static final String[] shopBackgrounds = {"textures/shop_ae86.png", "textures/shop_silvia.png"};
 
-    private ScoreManager scoreManager;
-
-    public Shop(Car playerCar) {
-        this.playerCar = playerCar;
-        this.scoreManager = new ScoreManager();
+    public Shop(Player player) {
+        this.player = player; // Инициализируем объект игрока
         setLayout(new BorderLayout());
         updateShopUI();
     }
 
     private void updateShopUI() {
-        removeAll(); // Clear existing components
+        removeAll(); // Очищаем текущую панель
 
-        // Background image for the current page
-        JLabel background = new JLabel(new ImageIcon("textures/shop_" + (currentPage == 0 ? "ae86" : "silvia") + ".png"));
+        // Загрузка фона текущей страницы
+        JLabel background = new JLabel(new ImageIcon(shopBackgrounds[currentPage]));
         add(background, BorderLayout.CENTER);
 
-        // Button to select and buy the car
-        JButton selectButton = new JButton("Выбрать");
-        selectButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                purchaseCar();
-            }
-        });
-
-        // Navigation buttons
-        JButton prevButton = new JButton("Назад");
-        JButton nextButton = new JButton("Вперед");
-
-        prevButton.addActionListener(e -> {
-            currentPage = (currentPage - 1 + carTextures.length) % carTextures.length;
-            updateShopUI();
-        });
-
-        nextButton.addActionListener(e -> {
-            currentPage = (currentPage + 1) % carTextures.length;
-            updateShopUI();
-        });
-
+        // Панель кнопок
         JPanel buttonPanel = new JPanel();
+        buttonPanel.setOpaque(false);
+
+        JButton prevButton = createNavigationButton("Назад", e -> {
+            currentPage = (currentPage - 1 + carTypes.length) % carTypes.length;
+            updateShopUI();
+        });
+
+        JButton nextButton = createNavigationButton("Вперед", e -> {
+            currentPage = (currentPage + 1) % carTypes.length;
+            updateShopUI();
+        });
+
+        String carType = carTypes[currentPage];
+        boolean owned = player.getOwnedCars().contains(carType);
+        boolean isSelected = carType.equals(player.getSelectedCar());
+        JButton actionButton = new JButton(owned ? (isSelected ? "Выбрано" : "Выбрать") : "Купить");
+
+        actionButton.addActionListener(e -> handleCarAction(carType, owned));
+
         buttonPanel.add(prevButton);
-        buttonPanel.add(selectButton);
+        buttonPanel.add(actionButton);
         buttonPanel.add(nextButton);
 
         add(buttonPanel, BorderLayout.SOUTH);
 
-        revalidate(); // Refresh the panel
-        repaint(); // Repaint the panel
+        revalidate();
+        repaint();
     }
 
-    private void purchaseCar() {
-        int carPrice = carPrices[currentPage];
-        if (scoreManager.getScore() >= carPrice) {
-            // Player can afford the car
-            scoreManager.spendPoints(carPrice);
-            addCarToPlayer();
-            JOptionPane.showMessageDialog(this, "Вы купили " + (currentPage == 0 ? "AE86" : "Silvia") + "!");
+    private JButton createNavigationButton(String text, ActionListener action) {
+        JButton button = new JButton(text);
+        button.addActionListener(action);
+        return button;
+    }
+
+    private void handleCarAction(String carType, boolean owned) {
+        if (owned) {
+            if (!carType.equals(player.getSelectedCar())) {
+                player.selectCar(carType); // Устанавливаем выбранную машину
+                JOptionPane.showMessageDialog(this, "Машина выбрана: " + carType);
+            } else {
+                JOptionPane.showMessageDialog(this, "Эта машина уже выбрана.");
+            }
         } else {
-            // Not enough points
-            JOptionPane.showMessageDialog(this, "У вас недостаточно очков для покупки этого автомобиля.");
-        }
-    }
-
-    private void addCarToPlayer() {
-        JSONObject playerInfo = loadPlayerInfo();
-        String carKey = currentPage == 0 ? "ae86" : "silvia";
-
-        // Add the car to the player's list of purchased cars if not already there
-        if (!playerInfo.has(carKey)) {
-            playerInfo.put(carKey, true);
-            savePlayerInfo(playerInfo);
-        }
-        
-        // Update car attributes for the player
-        double[] attributes = carAttributes[currentPage];
-        playerCar.updateMaxSpeed(attributes[0]);
-        playerCar.updateAccel(attributes[1]);
-    }
-
-    private JSONObject loadPlayerInfo() {
-        File file = new File(PLAYER_INFO_FILE);
-        JSONObject playerInfo = new JSONObject();
-
-        if (file.exists()) {
-            try {
-                String content = new String(Files.readAllBytes(file.toPath()));
-                playerInfo = new JSONObject(content);
-            } catch (IOException e) {
-                System.err.println("Error loading player info: " + e.getMessage());
+            int price = carPrices[currentPage];
+            if (player.spendScore(price)) {
+                player.addCar(carType);
+                JOptionPane.showMessageDialog(this, "Вы купили: " + carType);
+            } else {
+                JOptionPane.showMessageDialog(this, "Недостаточно очков для покупки.");
             }
         }
-
-        return playerInfo;
-    }
-
-    private void savePlayerInfo(JSONObject playerInfo) {
-        try (FileWriter writer = new FileWriter(PLAYER_INFO_FILE)) {
-            writer.write(playerInfo.toString(4));
-            System.out.println("Player info saved to " + PLAYER_INFO_FILE);
-        } catch (IOException e) {
-            System.err.println("Error saving player info: " + e.getMessage());
-        }
+        updateShopUI(); // Обновляем интерфейс
     }
 }

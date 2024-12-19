@@ -40,7 +40,7 @@ public class LevelEditor extends JPanel {
         String[] blockTypes = {"down_left", "down_right", "down_straight", "up_straight",
                 "up_left", "up_right", "left_straight", "left_up",
                 "left_down", "right_straight", "right_down", "right_up",
-                "grass", "finish", "start"};
+                "grass", "finish", "start", "barrier"};
 
         for (String type : blockTypes) {
             try {

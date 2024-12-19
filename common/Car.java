@@ -49,15 +49,46 @@ public class Car {
         }
     }
 
-    public void move(double deltaTime) {
-        x += speed * Math.cos(Math.toRadians(angle)) * deltaTime;
-        y += speed * Math.sin(Math.toRadians(angle)) * deltaTime;
-
+    public void move(double deltaTime, Tile[][] track) {
+        // Определение новой позиции
+        double newX = x + speed * Math.cos(Math.toRadians(angle)) * deltaTime;
+        double newY = y + speed * Math.sin(Math.toRadians(angle)) * deltaTime;
+    
+        // Проверка, является ли следующая позиция барьером
+        int newTileX = (int) Math.round(newX);  // Округление до целого
+        int newTileY = (int) Math.round(newY);
+    
+        // Проверка выхода за пределы карты
+        if (newTileX >= 0 && newTileX < track.length && newTileY >= 0 && newTileY < track[0].length) {
+            Tile nextTile = track[newTileX][newTileY];
+    
+            if (nextTile != null && nextTile.isBarrier) {
+                // При столкновении с барьером замедление вместо полной остановки
+                double distanceToBarrier = Math.sqrt(Math.pow(newX - x, 2) + Math.pow(newY - y, 2));
+                double slowdownFactor = Math.max(0.1, distanceToBarrier / 10); // Замедление зависит от расстояния
+    
+                speed -= slowdownFactor * deltaTime;
+                if (speed < 0) speed = 0;
+    
+                System.out.println("Collision with barrier, slowing down: Speed = " + speed);
+    
+                // Возвращаемся к старой позиции, если барьер препятствует движению
+                return;
+            }
+        }
+    
+        // Если нет барьера, обновляем координаты
+        x = newX;
+        y = newY;
+    
+        // Уменьшение скорости из-за трения
         if (speed > 0) {
             speed -= friction * deltaTime;
             if (speed < 0) speed = 0;
         }
     }
+    
+    
 
     public void accelerate() {
         if (speed < maxSpeed) {

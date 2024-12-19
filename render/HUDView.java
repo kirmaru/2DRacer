@@ -21,7 +21,7 @@ public class HUDView extends JPanel {
         this.raceTimer = raceTimer;
         loadBackgroundImage();
         loadSteeringWheel();
-        loadCustomFont(); // Загрузка пользовательского шрифта
+        loadCustomFont(); 
         setBackground(new Color(0, 0, 0, 0));
         setOpaque(false); 
     }

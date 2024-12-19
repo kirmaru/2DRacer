@@ -1,0 +1,11 @@
+10,10
+barrier,barrier,barrier,barrier,barrier,barrier,barrier,barrier,empty,empty,
+barrier,empty,empty,empty,empty,empty,empty,empty,empty,empty,
+barrier,empty,empty,empty,empty,empty,empty,empty,empty,empty,
+barrier,empty,empty,up_right,left_straight,left_straight,right_down,empty,empty,empty,
+barrier,empty,empty,up_straight,barrier,empty,down_straight,empty,empty,empty,
+barrier,empty,empty,up_straight,barrier,empty,down_straight,empty,empty,empty,
+barrier,empty,empty,up_straight,barrier,left_down,down_left,empty,empty,empty,
+barrier,empty,empty,start,empty,down_straight,empty,empty,empty,empty,
+barrier,empty,empty,empty,empty,down_straight,empty,empty,empty,empty,
+empty,empty,empty,empty,empty,finish,empty,empty,empty,empty,

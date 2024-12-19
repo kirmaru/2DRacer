@@ -1,3 +1,4 @@
+import common.Player;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -8,9 +9,11 @@ import javax.swing.*;
 public class MainMenu extends JLayeredPane {
 
     private GameWindow gameWindow;
+    private Player player;
 
     public MainMenu(GameWindow gameWindow) {
         this.gameWindow = gameWindow;
+        this.player = new Player();
         setLayout(new BorderLayout());
         JLayeredPane layeredPane = new JLayeredPane();
         BackgroundPanel backgroundPanel = new BackgroundPanel();
@@ -18,7 +21,7 @@ public class MainMenu extends JLayeredPane {
         
         layeredPane.add(backgroundPanel, Integer.valueOf(0));
         playBackgroundMusic("soundtrack/MYRONE_Exclusive_Coupe.wav");
-        
+        //playBackgroundMusic("soundtrack/Log.wav");
         JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 20, 20)); // 20 пикселей между кнопками
 
         buttonPanel.setBackground(new Color(0, 0, 0, 0));
@@ -99,7 +102,7 @@ public class MainMenu extends JLayeredPane {
     }
 
     private void openShop() {
-        Shop shop = new Shop(gameWindow.getPlayerCar()); // Assuming you have a method to get player's car
+        Shop shop = new Shop(player); // Assuming you have a method to get player's car
         JFrame shopFrame = new JFrame("Магазин");
         shopFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         shopFrame.setContentPane(shop);
@@ -138,7 +141,7 @@ public class MainMenu extends JLayeredPane {
                     tracks[0]);
 
             if (selectedTrack != null) {
-                gameWindow.startGame(type, selectedTrack, "silvia");
+                gameWindow.startGame(type, selectedTrack, player.getSelectedCar());
             }
         } else {
             JOptionPane.showMessageDialog(this, "Нет доступных карт в папке 'tracks'.");

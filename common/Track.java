@@ -180,4 +180,7 @@ public class Track {
         return track[x][y];
     }
 
+    public Tile[][] getTrack() {
+        return this.track;
+    }
 }

@@ -1,17 +1,18 @@
 package common;
- import java.util.Random;
 
 public class Tile {
     public int x;
     public int y;
     public String type;
     public double friction;
+    public boolean isBarrier;
 
     public Tile() {
         x = 0;
         y = 0;
         type = "0";
         friction = 1.0;
+        isBarrier = false;
     }
 
     public Tile(int x, int y, String type) {
@@ -19,6 +20,7 @@ public class Tile {
         this.y = y;
         this.type = type;
         this.friction = setFriction(type);
+        this.isBarrier = type.equals("barrier"); 
     }
 
     // public static Tile generateTile(Tile tile, Tile[][] track) {
