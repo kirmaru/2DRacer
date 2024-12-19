@@ -12,7 +12,7 @@ public class ScoreManager {
         return player.getScore();
     }
 
-    public void addPointsForCompletion(double timeInSeconds) {
+    public void addPoints(double timeInSeconds) {
         int pointsEarned = (int) Math.max(0, 10.0 * (300 - timeInSeconds));
         player.addScore(pointsEarned);
         System.out.println("Заработано очков: " + pointsEarned);

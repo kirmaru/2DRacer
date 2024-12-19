@@ -17,6 +17,8 @@ public class RaceTimer {
     private String trackName;
     private String generationType;
     private double seconds;
+    private ScoreManager scoreManager;
+    private Player player;
 
     public RaceTimer() {
         this.running = false;
@@ -26,6 +28,9 @@ public class RaceTimer {
         this.running = false;
         this.trackName = trackName;
         this.generationType = generationType;
+        this.player = new Player();
+        player.loadPlayerData();
+        this.scoreManager = new ScoreManager(player);
     }
 
     public void start() {
@@ -41,6 +46,7 @@ public class RaceTimer {
             this.running = false;
             printElapsedTime();
             saveResults(); 
+            scoreManager.addPoints(seconds);
         }
     }
 

@@ -6,7 +6,7 @@ import javax.swing.*;
 public class Shop extends JPanel {
     private Player player; // Объект игрока
     private int currentPage = 0; // Текущая страница магазина (0 для AE86, 1 для Silvia)
-    private static final int[] carPrices = {1000, 5000};
+    private static final int[] carPrices = {1000, 2000};
     private static final String[] carTypes = {"ae86", "silvia"};
     private static final String[] shopBackgrounds = {"textures/shop_ae86.png", "textures/shop_silvia.png"};
 

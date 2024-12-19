@@ -86,7 +86,7 @@ public class Player {
         }
     }
 
-    private void loadPlayerData() {
+    public void loadPlayerData() {
         File file = new File(PLAYER_INFO_FILE);
         if (file.exists()) {
             try {

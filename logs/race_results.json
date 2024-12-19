@@ -400,5 +400,29 @@
         "date_completed": "2024-12-19 13:34:24",
         "track_name": "barrier_test.txt",
         "generation_type": "text"
+    },
+    {
+        "elapsed_time": 8.661,
+        "date_completed": "2024-12-19 13:46:35",
+        "track_name": "barrier_test.txt",
+        "generation_type": "text"
+    },
+    {
+        "elapsed_time": 11.959,
+        "date_completed": "2024-12-19 14:04:29",
+        "track_name": "barrier_test.txt",
+        "generation_type": "text"
+    },
+    {
+        "elapsed_time": 3.924,
+        "date_completed": "2024-12-19 14:18:57",
+        "track_name": "barrier_test.txt",
+        "generation_type": "text"
+    },
+    {
+        "elapsed_time": 12.634,
+        "date_completed": "2024-12-19 14:20:35",
+        "track_name": "barrier_test.txt",
+        "generation_type": "text"
     }
 ]
