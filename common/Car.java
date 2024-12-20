@@ -18,8 +18,8 @@ public class Car {
     private int currentGear;
     private static final int MAX_GEARS = 3;
 
-    private static final double TURN_LIMIT = 2000.0;
-    private static final double TURN_RATE = 3.0;
+    private static final double TURN_LIMIT = 2000.0; // Maximum angle for turning
+    private static final double TURN_RATE = 3.0; // Rate of turning
 
     public Car(int startX, int startY, double startAngle) {
         this.x = startX;
@@ -28,9 +28,9 @@ public class Car {
         this.speed = 0;
         this.maxSpeed = 0;
         this.acceleration = 0;
-        this.friction = 5.0;
-        this.brake = 0.8;
-        this.currentGear = 1;
+        this.friction = 5.0; // Friction factor
+        this.brake = 0.8; // Brake factor
+        this.currentGear = 1; // Initial gear
     }
 
     public void loadFromJson(String filePath) {
@@ -50,45 +50,46 @@ public class Car {
     }
 
     public void move(double deltaTime, Tile[][] track) {
-        // Определение новой позиции
-        double newX = x + speed * Math.cos(Math.toRadians(angle)) * deltaTime;
-        double newY = y + speed * Math.sin(Math.toRadians(angle)) * deltaTime;
-    
-        // Проверка, является ли следующая позиция барьером
-        int newTileX = (int) Math.round(newX);  // Округление до целого
+        // Calculate forward motion
+        double forwardX = speed * Math.cos(Math.toRadians(angle));
+        double forwardY = speed * Math.sin(Math.toRadians(angle));
+
+        // Adjust lateral motion for less pronounced drifting
+        double lateralSpeedFactor = 0.01; // Further reduced factor for subtle drift
+        double lateralSpeed = (speed > 2) ? (speed * Math.sin(Math.toRadians(angle)) * lateralSpeedFactor) : 0; 
+        double newX = x + forwardX * deltaTime + lateralSpeed * deltaTime; 
+        double newY = y + forwardY * deltaTime;
+
+        // Check for barriers and update position accordingly
+        int newTileX = (int) Math.round(newX);
         int newTileY = (int) Math.round(newY);
-    
-        // Проверка выхода за пределы карты
+
         if (newTileX >= 0 && newTileX < track.length && newTileY >= 0 && newTileY < track[0].length) {
             Tile nextTile = track[newTileX][newTileY];
-    
+
             if (nextTile != null && nextTile.isBarrier) {
-                // При столкновении с барьером замедление вместо полной остановки
+                // Collision handling with barriers
                 double distanceToBarrier = Math.sqrt(Math.pow(newX - x, 2) + Math.pow(newY - y, 2));
-                double slowdownFactor = Math.max(0.1, distanceToBarrier / 10); // Замедление зависит от расстояния
-    
+                double slowdownFactor = Math.max(0.1, distanceToBarrier / 10);
+
                 speed -= slowdownFactor * deltaTime;
                 if (speed < 0) speed = 0;
-    
+
                 System.out.println("Collision with barrier, slowing down: Speed = " + speed);
-    
-                // Возвращаемся к старой позиции, если барьер препятствует движению
-                return;
+                return; // Return without updating position on collision
             }
         }
-    
-        // Если нет барьера, обновляем координаты
+
+        // Update position if no barrier
         x = newX;
         y = newY;
-    
-        // Уменьшение скорости из-за трения
+
+        // Apply friction
         if (speed > 0) {
             speed -= friction * deltaTime;
             if (speed < 0) speed = 0;
         }
     }
-    
-    
 
     public void accelerate() {
         if (speed < maxSpeed) {
@@ -107,14 +108,33 @@ public class Car {
     public void turnLeft() {
         if (speed > 0.1 && angle > -TURN_LIMIT) {
             angle -= TURN_RATE;
-            if (angle < -TURN_LIMIT) angle = -TURN_LIMIT;
+
+            // Reduce lateral speed increase for subtle drifting
+            double driftFactorLeft = 0.007; // Smaller factor for left turn drift effect
+            if (speed > 2) { // Only apply drift when moving fast enough
+                x += -driftFactorLeft * speed * Math.sin(Math.toRadians(angle)); 
+                y += driftFactorLeft * speed * Math.cos(Math.toRadians(angle)); 
+            }
+
+            if (angle < -TURN_LIMIT) angle = -TURN_LIMIT; 
         }
     }
-
+//ТУДУ
+/*
+ * driftFactorRight УВЕЛИЧИВАЕТСЯ ВМЕСТЕ СО СКОРОСТЬЮ
+ */
     public void turnRight() {
         if (speed > 0.1 && angle < TURN_LIMIT) {
             angle += TURN_RATE;
-            if (angle > TURN_LIMIT) angle = TURN_LIMIT;
+
+            // Reduce lateral speed increase for subtle drifting
+            double driftFactorRight = 0.007; // Smaller factor for right turn drift effect 
+            if (speed > 2) { // Only apply drift when moving fast enough
+                x += driftFactorRight * speed * Math.sin(Math.toRadians(angle)); 
+                y += -driftFactorRight * speed * Math.cos(Math.toRadians(angle));
+            }
+
+            if (angle > TURN_LIMIT) angle = TURN_LIMIT; 
         }
     }
 

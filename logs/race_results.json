@@ -424,5 +424,77 @@
         "date_completed": "2024-12-19 14:20:35",
         "track_name": "barrier_test.txt",
         "generation_type": "text"
+    },
+    {
+        "elapsed_time": 63.117,
+        "date_completed": "2024-12-19 15:03:50",
+        "track_name": "barrier_test.txt",
+        "generation_type": "text"
+    },
+    {
+        "elapsed_time": 9.097,
+        "date_completed": "2024-12-20 02:33:28",
+        "track_name": "barrier_test.txt",
+        "generation_type": "text"
+    },
+    {
+        "elapsed_time": 7.736,
+        "date_completed": "2024-12-20 17:21:10",
+        "track_name": "barrier_test.txt",
+        "generation_type": "text"
+    },
+    {
+        "elapsed_time": 6.27,
+        "date_completed": "2024-12-20 17:22:28",
+        "track_name": "barrier_test.txt",
+        "generation_type": "text"
+    },
+    {
+        "elapsed_time": 3.118,
+        "date_completed": "2024-12-20 17:22:38",
+        "track_name": "barrier_test.txt",
+        "generation_type": "text"
+    },
+    {
+        "elapsed_time": 15.17,
+        "date_completed": "2024-12-20 17:30:03",
+        "track_name": "barrier_test.txt",
+        "generation_type": "text"
+    },
+    {
+        "elapsed_time": 6.336,
+        "date_completed": "2024-12-20 17:41:20",
+        "track_name": "barrier_test.txt",
+        "generation_type": "text"
+    },
+    {
+        "elapsed_time": 4.896,
+        "date_completed": "2024-12-20 17:42:21",
+        "track_name": "barrier_test.txt",
+        "generation_type": "text"
+    },
+    {
+        "elapsed_time": 3.017,
+        "date_completed": "2024-12-20 18:21:13",
+        "track_name": "good_one.txt",
+        "generation_type": "text"
+    },
+    {
+        "elapsed_time": 6.497,
+        "date_completed": "2024-12-20 21:49:13",
+        "track_name": "barrier_test.txt",
+        "generation_type": "text"
+    },
+    {
+        "elapsed_time": 4.432,
+        "date_completed": "2024-12-20 21:51:07",
+        "track_name": "barrier_test.txt",
+        "generation_type": "text"
+    },
+    {
+        "elapsed_time": 4.408,
+        "date_completed": "2024-12-20 21:55:42",
+        "track_name": "barrier_test.txt",
+        "generation_type": "text"
     }
 ]
