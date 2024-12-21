@@ -14,14 +14,17 @@ public class Car {
     private double brake;
     private double friction;
     private String type;
+    private double driftFactor;
 
     private int currentGear;
     private static final int MAX_GEARS = 3;
 
     private static final double TURN_LIMIT = 2000.0; // Максимальный угол для поворота
     private static final double TURN_RATE = 3.0; // Скорость поворота
+    private static final double DRIFT_MAX = 0.01;
 
     public boolean isAccelerating; // Флаг для ускорения
+    public boolean handbrake;
 
     public Car(int startX, int startY, double startAngle) {
         this.x = startX;
@@ -34,6 +37,8 @@ public class Car {
         this.brake = 0.8; // Коэффициент торможения
         this.currentGear = 1; // Начальная передача
         this.isAccelerating = false; // Инициализация флага
+        this.handbrake = false;
+        this.driftFactor = 0.008;
     }
 
     public void loadFromJson(String filePath) {
@@ -81,6 +86,11 @@ public class Car {
                 System.out.println("Столкновение с препятствием, замедляемся: Скорость = " + speed);
                 return; // Возврат без обновления позиции при столкновении
             }
+            if(nextTile != null && nextTile.type.equals("grass")){
+                if(speed > 0) speed *=0.6;
+                System.out.println("grass");
+            }
+
         }
 
         // Обновление позиции, если нет препятствий
@@ -102,51 +112,63 @@ public class Car {
         } else {
             isAccelerating = false; // Установить флаг в false, если достигнута максимальная скорость
         }
+        
     }
 
     public void decelerate() {
         if (speed > 0) {
-            speed -= brake * (speed / maxSpeed);
+            speed -= brake * (speed / (maxSpeed*5));
             if (speed < 0) speed = 0;
         }
         isAccelerating = false; // Установить флаг в false при замедлении
     }
 
-    public void turnLeft() {
-        if (speed > 0.1 && angle > -TURN_LIMIT) {
-            angle -= TURN_RATE;
-            System.out.println("isAccel " + isAccelerating);
-            // Уменьшение увеличения боковой скорости для тонкого дрифта
-            double driftFactorLeft = 0.007; // Меньший коэффициент для эффекта дрифта при повороте влево
-            if (speed > 2) { // Применять дрифт только при достаточной скорости
-                if(isAccelerating == true){
-                    driftFactorLeft += 0.002;
-                    x += -driftFactorLeft * speed * Math.sin(Math.toRadians(angle)); 
-                    y += driftFactorLeft * speed * Math.cos(Math.toRadians(angle)); 
-                }
-            }
+    private void normalizeAngle() {
+        if (angle > 180) {
+            angle -= 360;
+        } else if (angle < -180) {
+            angle += 360;
+        }
+    }
 
-            if (angle < -TURN_LIMIT) angle = -TURN_LIMIT; 
+    public void turnLeft() {
+        if (speed > 0.1) {
+            angle -= TURN_RATE;
+            normalizeAngle(); // Нормализация угла
+            //System.out.println("isAccel " + isAccelerating);
+
+            if (speed > 1 && handbrake == true) {
+                // if (isAccelerating) {
+                //     driftFactor += 0.002;
+                    
+                //     x += -driftFactor * speed * Math.sin(Math.toRadians(angle));
+                //     y += driftFactor * speed * Math.cos(Math.toRadians(angle));
+                // }
+                driftFactor += 0.002;
+                if(driftFactor > DRIFT_MAX) driftFactor = DRIFT_MAX;
+                x += -driftFactor * speed * Math.sin(Math.toRadians(angle));
+                y += driftFactor * speed * Math.cos(Math.toRadians(angle));
+            }
         }
     }
 
     public void turnRight() {
-        if (speed > 0.1 && angle < TURN_LIMIT) {
+        if (speed > 0.1) {
             angle += TURN_RATE;
-            System.out.println("isAccel " + isAccelerating);
-            // Уменьшение увеличения боковой скорости для тонкого дрифта
-            double driftFactorRight = 0.007; // Меньший коэффициент для эффекта дрифта при повороте вправо 
-            if (speed > 2) { // Применять дрифт только при достаточной скорости
-                if(isAccelerating == true){
-                    driftFactorRight += 0.002;
-                    x += driftFactorRight * speed * Math.sin(Math.toRadians(angle)); 
-                    y += -driftFactorRight * speed * Math.cos(Math.toRadians(angle));
-                }
-                
-                
-            }
+            normalizeAngle(); // Нормализация угла
+            //System.out.println("isAccel " + isAccelerating);
 
-            if (angle > TURN_LIMIT) angle = TURN_LIMIT; 
+            if (speed > 1 && handbrake == true) {
+                // if (isAccelerating) {
+                //     driftFactor += 0.002;
+                //     x += driftFactor * speed * Math.sin(Math.toRadians(angle));
+                //     y += -driftFactor * speed * Math.cos(Math.toRadians(angle));
+                // }
+                driftFactor += 0.002;
+                if(driftFactor > DRIFT_MAX) driftFactor = DRIFT_MAX;
+                x += driftFactor * speed * Math.sin(Math.toRadians(angle));
+                y += -driftFactor * speed * Math.cos(Math.toRadians(angle));
+            }
         }
     }
 

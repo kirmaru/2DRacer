@@ -1,0 +1,11 @@
+17,10
+grass,grass,grass,grass,grass,grass,barrier,grass,grass,grass,grass,grass,grass,grass,grass,grass,grass,
+grass,grass,grass,grass,grass,grass,barrier,up_right,right_straight,right_down,grass,grass,grass,up_right,right_straight,right_down,grass,
+grass,up_right,right_straight,right_straight,right_straight,right_down,barrier,up_straight,barrier,down_straight,grass,grass,grass,up_straight,barrier,down_straight,grass,
+grass,up_straight,barrier,barrier,barrier,down_straight,barrier,up_straight,barrier,down_straight,grass,grass,grass,up_straight,barrier,down_straight,grass,
+grass,up_straight,barrier,left_down,left_straight,down_left,barrier,up_straight,barrier,down_straight,grass,grass,grass,up_straight,barrier,down_straight,grass,
+grass,up_straight,barrier,down_straight,barrier,barrier,up_right,right_up,barrier,down_straight,grass,grass,grass,up_straight,barrier,down_straight,grass,
+grass,up_straight,barrier,down_right,right_straight,right_straight,right_up,barrier,left_down,down_left,grass,grass,grass,up_straight,barrier,down_straight,grass,
+grass,up_straight,barrier,barrier,barrier,barrier,barrier,barrier,down_right,right_straight,right_straight,right_straight,right_straight,right_up,barrier,down_straight,grass,
+grass,start,barrier,grass,grass,grass,grass,barrier,barrier,barrier,barrier,barrier,barrier,barrier,barrier,down_straight,grass,
+barrier,barrier,barrier,finish,left_straight,left_straight,left_straight,left_straight,left_straight,left_straight,left_straight,left_straight,left_straight,left_straight,left_straight,down_left,grass,

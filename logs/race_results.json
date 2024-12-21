@@ -514,5 +514,47 @@
         "date_completed": "2024-12-21 23:19:47",
         "track_name": "barrier_test.txt",
         "generation_type": "text"
+    },
+    {
+        "elapsed_time": 15.072,
+        "date_completed": "2024-12-21 23:55:46",
+        "track_name": "barrier_test.txt",
+        "generation_type": "text"
+    },
+    {
+        "elapsed_time": 17.911,
+        "date_completed": "2024-12-22 00:31:58",
+        "track_name": "barrier_test.txt",
+        "generation_type": "text"
+    },
+    {
+        "elapsed_time": 13.063,
+        "date_completed": "2024-12-22 00:56:18",
+        "track_name": "barrier_test.txt",
+        "generation_type": "text"
+    },
+    {
+        "elapsed_time": 15.354,
+        "date_completed": "2024-12-22 00:57:21",
+        "track_name": "barrier_test.txt",
+        "generation_type": "text"
+    },
+    {
+        "elapsed_time": 42.711,
+        "date_completed": "2024-12-22 00:58:16",
+        "track_name": "barrier_test.txt",
+        "generation_type": "text"
+    },
+    {
+        "elapsed_time": 28.655,
+        "date_completed": "2024-12-22 01:44:25",
+        "track_name": "first.txt",
+        "generation_type": "text"
+    },
+    {
+        "elapsed_time": 27.529,
+        "date_completed": "2024-12-22 02:06:30",
+        "track_name": "first.txt",
+        "generation_type": "text"
     }
 ]

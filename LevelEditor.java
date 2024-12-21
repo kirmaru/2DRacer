@@ -156,7 +156,7 @@ public class LevelEditor extends JPanel {
                         if (map[x][y] != null) {
                             writer.write(getBlockType(map[x][y]) + ",");
                         } else {
-                            writer.write("empty,");
+                            writer.write("grass,");
                         }
                     }
                     writer.newLine();

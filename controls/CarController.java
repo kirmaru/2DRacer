@@ -25,6 +25,10 @@ public class CarController extends KeyAdapter {
         if(e.getKeyCode() == KeyEvent.VK_UP){
             car.isAccelerating = false;
         }
+        if(e.getKeyCode() == KeyEvent.VK_SPACE){
+            car.handbrake = false;
+        }
+
     }
 
     // Метод для обновления состояния автомобиля на основе нажатых клавиш
@@ -42,13 +46,18 @@ public class CarController extends KeyAdapter {
         if (pressedKeys.contains(KeyEvent.VK_RIGHT)) {
             car.turnRight();
         }
-
         // Переключение передач с помощью клавиш W и D
         if (pressedKeys.contains(KeyEvent.VK_W)) {
             car.shiftUp(); // Увеличение передачи
         }
         if (pressedKeys.contains(KeyEvent.VK_D)) {
             car.shiftDown(); // Уменьшение передачи
+        }
+        if (pressedKeys.contains(KeyEvent.VK_SPACE)){
+            car.handbrake = true;
+        }
+        if(pressedKeys.contains(KeyEvent.VK_ESCAPE)){
+            
         }
     }
 }

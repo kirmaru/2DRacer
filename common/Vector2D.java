@@ -9,25 +9,42 @@ public class Vector2D {
         this.y = y;
     }
 
+    // Добавление вектора
     public void add(Vector2D other) {
         this.x += other.x;
         this.y += other.y;
     }
 
-    public void multiply(double scalar) {
+    // Умножение вектора на скаляр
+    public void scale(double scalar) {
         this.x *= scalar;
         this.y *= scalar;
     }
 
-    public double length() {
+    // Длина вектора
+    public double magnitude() {
         return Math.sqrt(x * x + y * y);
     }
 
+    // Нормализация (преобразование вектора в единичный)
     public void normalize() {
-        double len = length();
-        if (len > 0) {
-            x /= len;
-            y /= len;
+        double mag = magnitude();
+        if (mag > 0) {
+            this.x /= mag;
+            this.y /= mag;
         }
+    }
+
+    // Поворот вектора на заданный угол
+    public void rotate(double angleDegrees) {
+        double radians = Math.toRadians(angleDegrees);
+        double cos = Math.cos(radians);
+        double sin = Math.sin(radians);
+
+        double newX = x * cos - y * sin;
+        double newY = x * sin + y * cos;
+
+        this.x = newX;
+        this.y = newY;
     }
 }

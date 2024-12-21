@@ -15,6 +15,8 @@ public class GameFrame extends JLayeredPane {
     private String generationType;
     private String trackName;
     private RaceTimer raceTimer;
+    private Timer timer;             // Игровой таймер
+    private boolean isPaused = false;
 
     public GameFrame(String generationType, String trackName, String carType) {
         this.generationType = generationType;
@@ -49,16 +51,30 @@ public class GameFrame extends JLayeredPane {
 
         addKeyListener(controller);
 
-        Timer timer = new Timer(20, e -> {
-            controller.update();
+        timer = new Timer(20, e -> {
+            if (!isPaused) { // Обновляем только если игра не на паузе
+                controller.update();
 
-            if (raceTimer.isRunning()) {
-                deltaTime += TIME_STEP;
+                if (raceTimer.isRunning()) {
+                    deltaTime += TIME_STEP;
 
-                while (deltaTime >= TIME_STEP) {
-                    car.move(TIME_STEP, track.getTrack());
-                    deltaTime -= TIME_STEP;
+                    while (deltaTime >= TIME_STEP) {
+                        car.move(TIME_STEP, track.getTrack());
+                        deltaTime -= TIME_STEP;
 
+                        int tileX = (int) Math.round(car.x);
+                        int tileY = (int) Math.round(car.y);
+
+                        Tile currentTile = null;
+                        if (tileX >= 0 && tileX < track.borderX && tileY >= 0 && tileY < track.borderY) {
+                            currentTile = track.getTile(tileX, tileY);
+                        }
+
+                        if (currentTile != null && "finish".equals(currentTile.type)) {
+                            raceTimer.stop();
+                        }
+                    }
+                } else {
                     int tileX = (int) Math.round(car.x);
                     int tileY = (int) Math.round(car.y);
 
@@ -67,28 +83,32 @@ public class GameFrame extends JLayeredPane {
                         currentTile = track.getTile(tileX, tileY);
                     }
 
-                    if (currentTile != null && "finish".equals(currentTile.type)) {
-                        raceTimer.stop();
+                    if (currentTile != null && "start".equals(currentTile.type)) {
+                        raceTimer.start();
                     }
                 }
-            } else {
-                int tileX = (int) Math.round(car.x);
-                int tileY = (int) Math.round(car.y);
-
-                Tile currentTile = null;
-                if (tileX >= 0 && tileX < track.borderX && tileY >= 0 && tileY < track.borderY) {
-                    currentTile = track.getTile(tileX, tileY);
-                }
-
-                if (currentTile != null && "start".equals(currentTile.type)) {
-                    raceTimer.start();
-                }
+                view.repaint();
             }
-            view.repaint();
         });
 
         timer.start();
         setFocusable(true);
+    }
+
+    // Метод для паузы игры
+    public void pauseGame() {
+        if (!isPaused) {
+            raceTimer.stop(); // Останавливаем таймер гонки
+            isPaused = true;  // Меняем флаг на паузу
+        }
+    }
+
+    // Метод для возобновления игры
+    public void resumeGame() {
+        if (isPaused) {
+            raceTimer.start(); // Возобновляем таймер гонки
+            isPaused = false;  // Меняем флаг на возобновление
+        }
     }
 
     public Car getCar() {
