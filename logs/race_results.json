@@ -496,5 +496,23 @@
         "date_completed": "2024-12-20 21:55:42",
         "track_name": "barrier_test.txt",
         "generation_type": "text"
+    },
+    {
+        "elapsed_time": 6.271,
+        "date_completed": "2024-12-21 23:08:24",
+        "track_name": "barrier_test.txt",
+        "generation_type": "text"
+    },
+    {
+        "elapsed_time": 5.818,
+        "date_completed": "2024-12-21 23:13:35",
+        "track_name": "barrier_test.txt",
+        "generation_type": "text"
+    },
+    {
+        "elapsed_time": 4.951,
+        "date_completed": "2024-12-21 23:19:47",
+        "track_name": "barrier_test.txt",
+        "generation_type": "text"
     }
 ]

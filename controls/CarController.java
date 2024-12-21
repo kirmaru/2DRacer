@@ -22,12 +22,16 @@ public class CarController extends KeyAdapter {
     @Override
     public void keyReleased(KeyEvent e) {
         pressedKeys.remove(e.getKeyCode());
+        if(e.getKeyCode() == KeyEvent.VK_UP){
+            car.isAccelerating = false;
+        }
     }
 
     // Метод для обновления состояния автомобиля на основе нажатых клавиш
     public void update() {
         if (pressedKeys.contains(KeyEvent.VK_UP)) {
             car.accelerate();
+            car.isAccelerating = true;
         }
         if (pressedKeys.contains(KeyEvent.VK_DOWN)) {
             car.decelerate();

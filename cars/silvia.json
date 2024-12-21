@@ -1,7 +1,7 @@
 {
     "type": "silvia",
-    "maxSpeed": 15.0,
-    "acceleration": 0.2,
+    "maxSpeed": 8.0,
+    "acceleration": 0.1,
     "brake": 4.5,
     "friction": 0.9,
     "mass" : 1000,
