@@ -57,7 +57,6 @@ public class CarController extends KeyAdapter {
             car.handbrake = true;
         }
         if(pressedKeys.contains(KeyEvent.VK_ESCAPE)){
-            
         }
     }
 }

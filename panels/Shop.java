@@ -1,3 +1,4 @@
+package panels;
 import common.Player;
 import java.awt.*;
 import java.awt.event.ActionListener;

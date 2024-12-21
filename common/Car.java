@@ -80,10 +80,11 @@ public class Car {
                 double distanceToBarrier = Math.sqrt(Math.pow(newX - x, 2) + Math.pow(newY - y, 2));
                 double slowdownFactor = Math.max(0.1, distanceToBarrier / 10);
 
-                speed -= slowdownFactor * deltaTime;
+                //speed -= slowdownFactor * deltaTime;
+                speed *=0.6;
                 if (speed < 0) speed = 0;
 
-                System.out.println("Столкновение с препятствием, замедляемся: Скорость = " + speed);
+                //System.out.println("Столкновение с препятствием, замедляемся: Скорость = " + speed);
                 return; // Возврат без обновления позиции при столкновении
             }
             if(nextTile != null && nextTile.type.equals("grass")){

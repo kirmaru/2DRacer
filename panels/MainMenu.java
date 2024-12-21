@@ -1,4 +1,6 @@
+package panels;
 import common.Player;
+
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;

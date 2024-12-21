@@ -1,3 +1,4 @@
+package panels;
 import common.Car;
 import common.RaceTimer;
 import common.Tile;
@@ -94,6 +95,7 @@ public class GameFrame extends JLayeredPane {
         timer.start();
         setFocusable(true);
     }
+    
 
     // Метод для паузы игры
     public void pauseGame() {

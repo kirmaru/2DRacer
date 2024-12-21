@@ -1,4 +1,7 @@
+package panels;
+
 import common.Car;
+
 import java.awt.*;
 import javax.swing.*;
 
@@ -7,6 +10,7 @@ public class GameWindow extends JFrame {
     private MainMenu mainMenu;
     private GameFrame gameFrame;
     private LevelEditor levelEditor;
+    private PauseController pauseController;
 
     public GameWindow() {
         setTitle("Racing Game");
@@ -24,6 +28,8 @@ public class GameWindow extends JFrame {
             remove(gameFrame);
         }
         gameFrame = new GameFrame(generationType, trackName, carType);
+        pauseController = new PauseController(gameFrame);
+        
         add(gameFrame, BorderLayout.CENTER);
         mainMenu.setVisible(false);
         revalidate();
