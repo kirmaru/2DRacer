@@ -1,5 +1,4 @@
 package panels;
-import common.Player;
 
 import java.awt.*;
 import java.awt.event.MouseAdapter;
@@ -7,7 +6,8 @@ import java.awt.event.MouseEvent;
 import java.io.File;
 import javax.sound.sampled.*;
 import javax.swing.*;
-//ошибка
+import model.Player;
+
 public class MainMenu extends JLayeredPane {
 
     private GameWindow gameWindow;
@@ -24,6 +24,7 @@ public class MainMenu extends JLayeredPane {
         layeredPane.add(backgroundPanel, Integer.valueOf(0));
         playBackgroundMusic("soundtrack/MYRONE_Exclusive_Coupe.wav");
         //playBackgroundMusic("soundtrack/Log.wav");
+        
         JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 20, 20)); // 20 пикселей между кнопками
 
         buttonPanel.setBackground(new Color(0, 0, 0, 0));
@@ -42,8 +43,7 @@ public class MainMenu extends JLayeredPane {
         buttonPanel.add(exitButton);
 
         buttonPanel.setBounds(0, 450, 1280, 720); 
-        //buttonPanel.setBorder(BorderFactory.createEmptyBorder(00, 0, 00, 0));
-
+       
         layeredPane.add(buttonPanel, Integer.valueOf(1));
 
         add(layeredPane);
@@ -79,7 +79,7 @@ public class MainMenu extends JLayeredPane {
         button.addActionListener(e -> {
             switch (actionCommand) {
                 case "Новая игра":
-                    showGameOptions();
+                    showTrackSelection();
                     break;
                 case "Выход":
                     System.exit(0);
@@ -104,7 +104,7 @@ public class MainMenu extends JLayeredPane {
     }
 
     private void openShop() {
-        Shop shop = new Shop(player); // Assuming you have a method to get player's car
+        Shop shop = new Shop(player);
         JFrame shopFrame = new JFrame("Магазин");
         shopFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         shopFrame.setContentPane(shop);
@@ -112,26 +112,10 @@ public class MainMenu extends JLayeredPane {
         shopFrame.setVisible(true);
     }
 
-    private void showGameOptions() {
-        String[] options = {"Генерация с картинки", "Генерация с текстового файла"};
-
-        int choice = JOptionPane.showOptionDialog(this,
-                "Выберите способ генерации трассы:",
-                "Опции генерации",
-                JOptionPane.DEFAULT_OPTION,
-                JOptionPane.INFORMATION_MESSAGE,
-                null,
-                options,
-                options[0]);
-
-        if (choice == 0 || choice == 1) {
-            showTrackSelection(choice == 0 ? "image" : "text");
-        }
-    }
-
-    private void showTrackSelection(String type) {
+    // Обновленный метод для только выбора карты
+    private void showTrackSelection() {
         File trackDir = new File("tracks");
-        String[] tracks = trackDir.list((dir, name) -> name.endsWith(type.equals("image") ? ".png" : ".txt"));
+        String[] tracks = trackDir.list((dir, name) -> name.endsWith(".png") || name.endsWith(".txt"));
 
         if (tracks != null && tracks.length > 0) {
             String selectedTrack = (String) JOptionPane.showInputDialog(this,
@@ -143,6 +127,8 @@ public class MainMenu extends JLayeredPane {
                     tracks[0]);
 
             if (selectedTrack != null) {
+                // Выбираем тип генерации автоматически (по типу файла)
+                String type = selectedTrack.endsWith(".png") ? "image" : "text";
                 gameWindow.startGame(type, selectedTrack, player.getSelectedCar());
             }
         } else {

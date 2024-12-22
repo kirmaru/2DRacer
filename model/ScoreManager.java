@@ -1,5 +1,5 @@
 // ScoreManager.java
-package common;
+package model;
 
 public class ScoreManager {
     private Player player;

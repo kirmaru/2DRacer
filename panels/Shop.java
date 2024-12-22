@@ -1,30 +1,28 @@
 package panels;
-import common.Player;
 import java.awt.*;
 import java.awt.event.ActionListener;
 import javax.swing.*;
+import model.Player;
 
 public class Shop extends JPanel {
-    private Player player; // Объект игрока
-    private int currentPage = 0; // Текущая страница магазина (0 для AE86, 1 для Silvia)
+    private Player player; 
+    private int currentPage = 0; 
     private static final int[] carPrices = {1000, 2000};
     private static final String[] carTypes = {"ae86", "silvia"};
     private static final String[] shopBackgrounds = {"textures/shop_ae86.png", "textures/shop_silvia.png"};
 
     public Shop(Player player) {
-        this.player = player; // Инициализируем объект игрока
+        this.player = player; 
         setLayout(new BorderLayout());
         updateShopUI();
     }
 
     private void updateShopUI() {
-        removeAll(); // Очищаем текущую панель
+        removeAll(); 
 
-        // Загрузка фона текущей страницы
         JLabel background = new JLabel(new ImageIcon(shopBackgrounds[currentPage]));
         add(background, BorderLayout.CENTER);
 
-        // Панель кнопок
         JPanel buttonPanel = new JPanel();
         buttonPanel.setOpaque(false);
 
@@ -64,7 +62,7 @@ public class Shop extends JPanel {
     private void handleCarAction(String carType, boolean owned) {
         if (owned) {
             if (!carType.equals(player.getSelectedCar())) {
-                player.selectCar(carType); // Устанавливаем выбранную машину
+                player.selectCar(carType);
                 JOptionPane.showMessageDialog(this, "Машина выбрана: " + carType);
             } else {
                 JOptionPane.showMessageDialog(this, "Эта машина уже выбрана.");
@@ -78,6 +76,6 @@ public class Shop extends JPanel {
                 JOptionPane.showMessageDialog(this, "Недостаточно очков для покупки.");
             }
         }
-        updateShopUI(); // Обновляем интерфейс
+        updateShopUI();
     }
 }

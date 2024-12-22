@@ -1,8 +1,5 @@
-package render;
+package view;
 
-import common.Car;
-import common.Tile;
-import common.Track;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -11,6 +8,10 @@ import java.util.HashMap;
 import java.util.Map;
 import javax.imageio.ImageIO;
 import javax.swing.*;
+
+import model.Car;
+import model.Tile;
+import model.Track;
 
 public class TrackView extends JPanel {  
     private Track track;  
@@ -26,7 +27,7 @@ public class TrackView extends JPanel {
         this.scaleFactor = scaleFactor;  
         setPreferredSize(new Dimension(1280, 720));  
         loadTileImages();  
-        setBackground(Color.GREEN);
+        setBackground(new Color(0, 134, 89));
     }  
 
     private void loadTileImages() {  

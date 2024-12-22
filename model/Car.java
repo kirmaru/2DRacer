@@ -1,4 +1,4 @@
-package common;
+package model;
 
 import org.json.JSONObject;
 import java.nio.file.Files;
@@ -19,11 +19,11 @@ public class Car {
     private int currentGear;
     private static final int MAX_GEARS = 3;
 
-    private static final double TURN_LIMIT = 2000.0; // Максимальный угол для поворота
-    private static final double TURN_RATE = 3.0; // Скорость поворота
+    private static final double TURN_LIMIT = 2000.0; 
+    private static final double TURN_RATE = 3.0; 
     private static final double DRIFT_MAX = 0.01;
 
-    public boolean isAccelerating; // Флаг для ускорения
+    public boolean isAccelerating; 
     public boolean handbrake;
 
     public Car(int startX, int startY, double startAngle) {
@@ -33,10 +33,10 @@ public class Car {
         this.speed = 0;
         this.maxSpeed = 0;
         this.acceleration = 0;
-        this.friction = 5.0; // Коэффициент трения
-        this.brake = 0.8; // Коэффициент торможения
-        this.currentGear = 1; // Начальная передача
-        this.isAccelerating = false; // Инициализация флага
+        this.friction = 5.0; 
+        this.brake = 0.8; 
+        this.currentGear = 1; 
+        this.isAccelerating = false; 
         this.handbrake = false;
         this.driftFactor = 0.008;
     }
@@ -58,17 +58,14 @@ public class Car {
     }
 
     public void move(double deltaTime, Tile[][] track) {
-        // Вычисление движения вперед
         double forwardX = speed * Math.cos(Math.toRadians(angle));
         double forwardY = speed * Math.sin(Math.toRadians(angle));
 
-        // Корректировка бокового движения для менее выраженного дрифта
-        double lateralSpeedFactor = 0.01; // Уменьшенный коэффициент для тонкого дрифта
+        double lateralSpeedFactor = 0.01;
         double lateralSpeed = (speed > 2) ? (speed * Math.sin(Math.toRadians(angle)) * lateralSpeedFactor) : 0; 
         double newX = x + forwardX * deltaTime + lateralSpeed * deltaTime; 
         double newY = y + forwardY * deltaTime;
 
-        // Проверка на препятствия и обновление позиции соответственно
         int newTileX = (int) Math.round(newX);
         int newTileY = (int) Math.round(newY);
 
@@ -76,16 +73,13 @@ public class Car {
             Tile nextTile = track[newTileX][newTileY];
 
             if (nextTile != null && nextTile.isBarrier) {
-                // Обработка столкновения с препятствием
                 double distanceToBarrier = Math.sqrt(Math.pow(newX - x, 2) + Math.pow(newY - y, 2));
                 double slowdownFactor = Math.max(0.1, distanceToBarrier / 10);
 
-                //speed -= slowdownFactor * deltaTime;
                 speed *=0.6;
                 if (speed < 0) speed = 0;
 
-                //System.out.println("Столкновение с препятствием, замедляемся: Скорость = " + speed);
-                return; // Возврат без обновления позиции при столкновении
+                return; 
             }
             if(nextTile != null && nextTile.type.equals("grass")){
                 if(speed > 0) speed *=0.6;
@@ -94,11 +88,9 @@ public class Car {
 
         }
 
-        // Обновление позиции, если нет препятствий
         x = newX;
         y = newY;
 
-        // Применение трения
         if (speed > 0) {
             speed -= friction * deltaTime;
             if (speed < 0) speed = 0;
@@ -109,9 +101,9 @@ public class Car {
         if (speed < maxSpeed) {
             speed += acceleration;
             if (speed > maxSpeed) speed = maxSpeed;
-            //isAccelerating = true; // Установить флаг в true при ускорении
+            
         } else {
-            isAccelerating = false; // Установить флаг в false, если достигнута максимальная скорость
+            isAccelerating = false; 
         }
         
     }
@@ -121,7 +113,7 @@ public class Car {
             speed -= brake * (speed / (maxSpeed*5));
             if (speed < 0) speed = 0;
         }
-        isAccelerating = false; // Установить флаг в false при замедлении
+        isAccelerating = false;
     }
 
     private void normalizeAngle() {
@@ -135,16 +127,9 @@ public class Car {
     public void turnLeft() {
         if (speed > 0.1) {
             angle -= TURN_RATE;
-            normalizeAngle(); // Нормализация угла
-            //System.out.println("isAccel " + isAccelerating);
+            normalizeAngle(); 
 
             if (speed > 1 && handbrake == true) {
-                // if (isAccelerating) {
-                //     driftFactor += 0.002;
-                    
-                //     x += -driftFactor * speed * Math.sin(Math.toRadians(angle));
-                //     y += driftFactor * speed * Math.cos(Math.toRadians(angle));
-                // }
                 driftFactor += 0.002;
                 if(driftFactor > DRIFT_MAX) driftFactor = DRIFT_MAX;
                 x += -driftFactor * speed * Math.sin(Math.toRadians(angle));
@@ -156,15 +141,9 @@ public class Car {
     public void turnRight() {
         if (speed > 0.1) {
             angle += TURN_RATE;
-            normalizeAngle(); // Нормализация угла
-            //System.out.println("isAccel " + isAccelerating);
+            normalizeAngle(); 
 
             if (speed > 1 && handbrake == true) {
-                // if (isAccelerating) {
-                //     driftFactor += 0.002;
-                //     x += driftFactor * speed * Math.sin(Math.toRadians(angle));
-                //     y += -driftFactor * speed * Math.cos(Math.toRadians(angle));
-                // }
                 driftFactor += 0.002;
                 if(driftFactor > DRIFT_MAX) driftFactor = DRIFT_MAX;
                 x += driftFactor * speed * Math.sin(Math.toRadians(angle));

@@ -1,13 +1,14 @@
-package render;
+package view;
 
-import common.Car;
-import common.RaceTimer;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import javax.imageio.ImageIO;
 import javax.swing.*;
+
+import model.Car;
+import model.RaceTimer;
 
 public class HUDView extends JPanel {
     private Car car;
@@ -42,16 +43,12 @@ public class HUDView extends JPanel {
         }
     }
 
-    // Метод для загрузки пользовательского шрифта
     private void loadCustomFont() {
         try {
-            // Загрузка шрифта из файла
             Font font = Font.createFont(Font.TRUETYPE_FONT, new File("resources/MOSCOW2024.ttf"));
             GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
-            // Регистрация шрифта
             ge.registerFont(font);
-            // Установка размера шрифта
-            customFont = font.deriveFont(Font.BOLD, 16);
+            customFont = font.deriveFont(Font.BOLD, 14);
         } catch (FontFormatException | IOException e) {
             System.err.println("Error loading custom font: " + e.getMessage());
         }
@@ -96,9 +93,9 @@ public class HUDView extends JPanel {
 
         double elapsedTime = raceTimer.isRunning() ? (System.currentTimeMillis() - raceTimer.startTime) / 1000.0 : 0;
 
-        g.drawString("Speed: " + String.format("%.2f", speed) + " m/s", 163, 530);
-        g.drawString("Elapsed Time: " + String.format("%.2f", elapsedTime) + " s", 163, 550);
-        g.drawString("Angle: " + String.format("%.2f", angle) + " ", 163, 510);
-        g.drawString("gera: " + String.format("%.2f", gear) + " ", 163, 490);
+        g.drawString("Speed: " + String.format("%.2f", speed) + " m/s", 870, 620);
+        g.drawString("Elapsed Time: " + String.format("%.2f", elapsedTime) + " s", 870, 605);
+        g.drawString("Angle: " + String.format("%.2f", angle) + " ", 870, 590);
+        g.drawString("gear: " + String.format("%.2f", gear) + " ", 870, 575);
     }
 }

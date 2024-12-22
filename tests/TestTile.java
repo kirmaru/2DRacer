@@ -1,7 +1,6 @@
 package tests;
 
-import java.util.Scanner;
-import common.*;
+import model.*;
 
 public class TestTile {
     public static void main(String[] args) {

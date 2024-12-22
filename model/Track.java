@@ -1,11 +1,8 @@
-package common;
-import java.awt.image.BufferedImage; // чтение картинки буфер
-import java.io.BufferedReader; // чтение файла буфер 
-import java.io.File; // тоже
-import java.io.FileReader; //для чтения файла
-import java.io.IOException; //для чтения из текстого файла
-import java.util.Arrays; // для чтения из файла
-import javax.imageio.ImageIO; //для чтения из картинки
+package model;
+import java.io.BufferedReader; // чтение картинки буфер
+import java.io.FileReader; // чтение файла буфер
+import java.io.IOException; // тоже
+import java.util.Arrays; //для чтения файла
 
 public class Track {
     public Tile[][] track;
@@ -28,7 +25,6 @@ public class Track {
 
         public void loadTrack(String filename) {
         try (BufferedReader br = new BufferedReader(new FileReader(filename))) {
-            // Чтение размеров трассы
             String sizeLine = br.readLine();
             if (sizeLine == null) {
                 throw new IOException("File is empty or missing dimensions line.");
@@ -42,21 +38,17 @@ public class Track {
             this.borderY = rows;
             this.track = new Tile[cols][rows];
 
-            // Чтение строк трассы
             for (int y = 0; y < rows; y++) {
                 String line = br.readLine();
                 if (line == null) {
                     throw new IOException("Missing or incomplete line in the file.");
                 }
 
-                // Удаляем лишние пробелы и символы новой строки
                 line = line.trim();
                 String[] parts = line.split(",");
 
-                // Удаляем пустые элементы из массива
                 parts = Arrays.stream(parts).filter(part -> !part.isEmpty()).toArray(String[]::new);
 
-                // Проверка длины массива
                 if (parts.length != cols) {
                     throw new IOException("Line " + y + " has incorrect column count. Expected: " + cols + ", Found: " + parts.length);
                 }
@@ -64,10 +56,8 @@ public class Track {
                 for (int x = 0; x < cols; x++) {
                     String type = parts[x].trim();
 
-                    // Проверка на пустые клетки
                     if (!type.equals("empty")) {
                         this.track[x][y] = new Tile(x, y, type);
-                        // Установка стартовой и финишной точки
                         if (type.equals("start")) {
                             start = new Tile(x, y, type);
                             System.out.println("Start point found at: (" + x + ", " + y + ")");
@@ -79,7 +69,6 @@ public class Track {
                 }
             }
 
-            // Проверка на наличие стартовой и финишной точки
             if (start == null) {
                 System.err.println("Start point not found in the track.");
                 throw new IllegalStateException("Track must have a start point.");
@@ -96,7 +85,6 @@ public class Track {
         }
     }
 
-    // НУЖНО ДОБАВИТЬ ПОДДЕРЖКУ РАЗНЫЙ ТИПОВ ТАЙЛОВ ИЛИ УБРАТЬ ВСЁ ЭТО НАФИГ
     public void loadTrackFromImage(String filename) {
         try {
             BufferedImage image = ImageIO.read(new File(filename));

@@ -568,5 +568,71 @@
         "date_completed": "2024-12-22 03:16:26",
         "track_name": "first.txt",
         "generation_type": "text"
+    },
+    {
+        "elapsed_time": 2.276,
+        "date_completed": "2024-12-22 20:27:30",
+        "track_name": "first.txt",
+        "generation_type": "text"
+    },
+    {
+        "elapsed_time": 1.119,
+        "date_completed": "2024-12-22 20:27:32",
+        "track_name": "first.txt",
+        "generation_type": "text"
+    },
+    {
+        "elapsed_time": 0.8,
+        "date_completed": "2024-12-22 20:27:35",
+        "track_name": "first.txt",
+        "generation_type": "text"
+    },
+    {
+        "elapsed_time": 1.456,
+        "date_completed": "2024-12-22 20:27:37",
+        "track_name": "first.txt",
+        "generation_type": "text"
+    },
+    {
+        "elapsed_time": 2.171,
+        "date_completed": "2024-12-22 20:27:40",
+        "track_name": "first.txt",
+        "generation_type": "text"
+    },
+    {
+        "elapsed_time": 1.214,
+        "date_completed": "2024-12-22 20:27:41",
+        "track_name": "first.txt",
+        "generation_type": "text"
+    },
+    {
+        "elapsed_time": 0.722,
+        "date_completed": "2024-12-22 20:27:42",
+        "track_name": "first.txt",
+        "generation_type": "text"
+    },
+    {
+        "elapsed_time": 0.742,
+        "date_completed": "2024-12-22 20:27:44",
+        "track_name": "first.txt",
+        "generation_type": "text"
+    },
+    {
+        "elapsed_time": 0.286,
+        "date_completed": "2024-12-22 20:27:45",
+        "track_name": "first.txt",
+        "generation_type": "text"
+    },
+    {
+        "elapsed_time": 0.785,
+        "date_completed": "2024-12-22 20:31:41",
+        "track_name": "first.txt",
+        "generation_type": "text"
+    },
+    {
+        "elapsed_time": 26.682,
+        "date_completed": "2024-12-22 21:07:50",
+        "track_name": "first.txt",
+        "generation_type": "text"
     }
 ]

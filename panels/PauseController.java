@@ -11,7 +11,6 @@ public class PauseController extends KeyAdapter {
         this.gameFrame = gameFrame;
     }
 
-    // Метод для переключения состояния паузы
     public void togglePause() {
         if (gameFrame != null) {
             if (gameFrame.isPaused()) {

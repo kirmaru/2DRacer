@@ -1,5 +1,5 @@
 // Player.java
-package common;
+package model;
 
 import org.json.JSONArray;
 import org.json.JSONObject;

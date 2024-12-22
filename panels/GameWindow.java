@@ -1,9 +1,9 @@
 package panels;
 
-import common.Car;
-
 import java.awt.*;
 import javax.swing.*;
+
+import model.Car;
 
 public class GameWindow extends JFrame {
 
@@ -71,6 +71,6 @@ public class GameWindow extends JFrame {
     }
 
     public Car getPlayerCar() {
-        return gameFrame != null ? gameFrame.getCar() : null; // Assuming GameFrame has a getCar() method
+        return gameFrame != null ? gameFrame.getCar() : null;
     }
 }

@@ -1,11 +1,18 @@
 package panels;
-import common.Car;
-import common.RaceTimer;
-import common.Tile;
-import common.Track;
 import controls.CarController;
+import java.awt.*;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import javax.imageio.ImageIO;
 import javax.swing.*;
-import render.*;
+import model.Car;
+import model.RaceTimer;
+import model.Tile;
+import model.Track;
+import view.*;
 
 public class GameFrame extends JLayeredPane {
 
@@ -16,8 +23,10 @@ public class GameFrame extends JLayeredPane {
     private String generationType;
     private String trackName;
     private RaceTimer raceTimer;
-    private Timer timer;             // Игровой таймер
+    private Timer timer;
     private boolean isPaused = false;
+
+    private PauseMenuPanel pauseMenuPanel; 
 
     public GameFrame(String generationType, String trackName, String carType) {
         this.generationType = generationType;
@@ -51,9 +60,26 @@ public class GameFrame extends JLayeredPane {
         add(hudView, Integer.valueOf(1));
 
         addKeyListener(controller);
+        addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyPressed(KeyEvent e) {
+                if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
+                    if (isPaused) {
+                        resumeGame();
+                    } else {
+                        pauseGame();
+                    }
+                }
+            }
+        });
+
+        pauseMenuPanel = new PauseMenuPanel();
+        pauseMenuPanel.setBounds(0, 0, 1280, 720);
+        pauseMenuPanel.setVisible(false); 
+        add(pauseMenuPanel, Integer.valueOf(2));
 
         timer = new Timer(20, e -> {
-            if (!isPaused) { // Обновляем только если игра не на паузе
+            if (!isPaused) {
                 controller.update();
 
                 if (raceTimer.isRunning()) {
@@ -95,25 +121,59 @@ public class GameFrame extends JLayeredPane {
         timer.start();
         setFocusable(true);
     }
-    
 
-    // Метод для паузы игры
     public void pauseGame() {
         if (!isPaused) {
-            raceTimer.stop(); // Останавливаем таймер гонки
-            isPaused = true;  // Меняем флаг на паузу
+            isPaused = true;
+            raceTimer.pause();
+            pauseMenuPanel.setVisible(true);
         }
     }
 
-    // Метод для возобновления игры
     public void resumeGame() {
         if (isPaused) {
-            raceTimer.start(); // Возобновляем таймер гонки
-            isPaused = false;  // Меняем флаг на возобновление
+            isPaused = false;
+            raceTimer.resume();
+            pauseMenuPanel.setVisible(false);  
         }
     }
 
     public Car getCar() {
         return car;
+    }
+
+    private class PauseMenuPanel extends JPanel {
+        private BufferedImage backgroundImage; 
+        public PauseMenuPanel() {
+            try {
+                backgroundImage = ImageIO.read(new File("textures/background.png"));
+            } catch (IOException e) {
+                System.err.println("Ошибка загрузки изображения фона: " + e.getMessage());
+            }
+
+            setLayout(null);
+            setBackground(new Color(0, 0, 0, 150)); 
+
+            JButton resumeButton = new JButton("Продолжить");
+            resumeButton.setBounds(540, 300, 200, 50);
+            resumeButton.addActionListener(e -> resumeGame());
+            add(resumeButton);
+
+            JButton quitButton = new JButton("Выход");
+            quitButton.setBounds(540, 400, 200, 50);
+            quitButton.addActionListener(e -> System.exit(0));
+            add(quitButton);
+        }
+
+        @Override
+        protected void paintComponent(Graphics g) {
+            super.paintComponent(g);
+            if (backgroundImage != null) {
+                Graphics2D g2d = (Graphics2D) g;
+                g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.5f)); 
+                g2d.drawImage(backgroundImage, 0, 0, getWidth(), getHeight(), this);
+                g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1f)); 
+            }
+        }
     }
 }

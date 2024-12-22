@@ -1,7 +1,7 @@
 package tests;
 
 import java.util.Scanner;
-import common.*;
+import model.*;
 
 public class TestPlayer {
     public static void main(String[] args) {

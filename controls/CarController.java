@@ -1,10 +1,10 @@
 package controls;
 
-import common.Car;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.util.HashSet;
 import java.util.Set;
+import model.Car;
 
 public class CarController extends KeyAdapter {
     private Car car;
@@ -31,7 +31,6 @@ public class CarController extends KeyAdapter {
 
     }
 
-    // Метод для обновления состояния автомобиля на основе нажатых клавиш
     public void update() {
         if (pressedKeys.contains(KeyEvent.VK_UP)) {
             car.accelerate();
@@ -46,12 +45,11 @@ public class CarController extends KeyAdapter {
         if (pressedKeys.contains(KeyEvent.VK_RIGHT)) {
             car.turnRight();
         }
-        // Переключение передач с помощью клавиш W и D
         if (pressedKeys.contains(KeyEvent.VK_W)) {
-            car.shiftUp(); // Увеличение передачи
+            car.shiftUp(); 
         }
         if (pressedKeys.contains(KeyEvent.VK_D)) {
-            car.shiftDown(); // Уменьшение передачи
+            car.shiftDown();
         }
         if (pressedKeys.contains(KeyEvent.VK_SPACE)){
             car.handbrake = true;

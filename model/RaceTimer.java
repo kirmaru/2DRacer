@@ -1,4 +1,4 @@
-package common;
+package model;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -12,8 +12,11 @@ import java.util.Date;
 
 public class RaceTimer {
     public long startTime;
+    private long pausedTime;  
+    private long totalPausedDuration;
     private long endTime;
     private boolean running;
+    private boolean paused;
     private String trackName;
     private String generationType;
     private double seconds;
@@ -22,10 +25,12 @@ public class RaceTimer {
 
     public RaceTimer() {
         this.running = false;
+        this.paused = false;
     }
-    
+
     public RaceTimer(String trackName, String generationType) {
         this.running = false;
+        this.paused = false;
         this.trackName = trackName;
         this.generationType = generationType;
         this.player = new Player();
@@ -35,37 +40,46 @@ public class RaceTimer {
 
     public void start() {
         if (!running) {
-            this.startTime = System.currentTimeMillis();
+            this.startTime = System.currentTimeMillis() - totalPausedDuration; 
             this.running = true;
+            this.paused = false;
+        }
+    }
+
+    public void pause() {
+        if (running && !paused) {
+            this.pausedTime = System.currentTimeMillis();
+            this.paused = true;
+        }
+    }
+
+    public void resume() {
+        if (paused) {
+            long pauseDuration = System.currentTimeMillis() - pausedTime;
+            totalPausedDuration += pauseDuration; 
+            this.startTime += pauseDuration; 
+            this.paused = false;
         }
     }
 
     public void stop() {
         if (running) {
-            this.endTime = System.currentTimeMillis();
+            long endTime = System.currentTimeMillis();
+            this.totalPausedDuration += (paused ? (endTime - pausedTime) : 0); 
+            this.seconds = (endTime - startTime - totalPausedDuration) / 1000.0;
             this.running = false;
+            this.paused = false;
             printElapsedTime();
             saveResults(); 
             scoreManager.addPoints(seconds);
         }
     }
 
-    public void reset() {
-        this.startTime = 0;
-        this.endTime = 0;
-        this.running = false;
-    }
-
     public void printElapsedTime() {
-        long elapsedTime = endTime - startTime;
-        this.seconds = elapsedTime / 1000.0;
         System.out.printf("Elapsed time: %.2f seconds%n", seconds);
     }
 
     private void saveResults() {
-        long elapsedTime = endTime - startTime; 
-        this.seconds = elapsedTime / 1000.0;
-
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("elapsed_time", seconds);
 
@@ -87,7 +101,7 @@ public class RaceTimer {
 
             if (resultsFile.exists()) {
                 String content = new String(Files.readAllBytes(resultsFile.toPath()));
-     
+
                 if (content.trim().startsWith("[")) {
                     resultsArray = new JSONArray(content);
                 } else {
@@ -104,7 +118,7 @@ public class RaceTimer {
                 fileWriter.write(resultsArray.toString(4));
                 System.out.println("Results saved to " + resultsFile.getAbsolutePath());
             }
-            
+
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -112,6 +126,10 @@ public class RaceTimer {
 
     public boolean isRunning() {
         return running;
+    }
+
+    public boolean isPaused() {
+        return paused;
     }
 
     public double getTime() {
