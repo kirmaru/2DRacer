@@ -556,5 +556,17 @@
         "date_completed": "2024-12-22 02:06:30",
         "track_name": "first.txt",
         "generation_type": "text"
+    },
+    {
+        "elapsed_time": 2.009,
+        "date_completed": "2024-12-22 03:15:33",
+        "track_name": "first",
+        "generation_type": "fds"
+    },
+    {
+        "elapsed_time": 23.849,
+        "date_completed": "2024-12-22 03:16:26",
+        "track_name": "first.txt",
+        "generation_type": "text"
     }
 ]
