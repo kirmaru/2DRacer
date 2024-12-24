@@ -66,9 +66,9 @@ public class GameFrame extends JLayeredPane {
         });
 
         pauseMenuPanel = new PauseMenuPanel(
-            e -> resumeGame(), // Resume action
+            e -> resumeGame(),
             e -> {
-                resumeGame(); // Resume game before going to main menu
+                resumeGame();
                 gameWindow.showMainMenu();
             }
         );
@@ -96,11 +96,10 @@ public class GameFrame extends JLayeredPane {
                             currentTile = track.getTile(tileX, tileY);
                         }
 
-                        // Check if the car has crossed the finish line
                         if (currentTile != null && "finish".equals(currentTile.type)) {
                             raceTimer.stop();
-                            showRaceResults(); // Show results when finishing
-                            break; // Exit loop after showing results
+                            showRaceResults();
+                            break;
                         }
                     }
                 } else {

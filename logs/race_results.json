@@ -16,5 +16,11 @@
         "date_completed": "2024-12-24 19:11:52",
         "track_name": "first.txt",
         "generation_type": "text"
+    },
+    {
+        "elapsed_time": 66.109,
+        "date_completed": "2024-12-24 20:01:43",
+        "track_name": "first.txt",
+        "generation_type": "text"
     }
 ]

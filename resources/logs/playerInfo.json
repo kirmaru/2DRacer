@@ -1,9 +1,9 @@
 {
-    "score": 24332,
+    "score": 26770,
     "ownedCars": [
         "Sedan",
         "ae86",
         "silvia"
     ],
-    "selectedCar": "Sedan"
+    "selectedCar": "ae86"
 }
