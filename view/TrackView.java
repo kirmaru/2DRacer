@@ -8,7 +8,6 @@ import java.util.HashMap;
 import java.util.Map;
 import javax.imageio.ImageIO;
 import javax.swing.*;
-
 import model.Car;
 import model.Tile;
 import model.Track;
@@ -25,18 +24,18 @@ public class TrackView extends JPanel {
         this.car = car;  
         this.carView = new CarView(car);  
         this.scaleFactor = scaleFactor;  
-        setPreferredSize(new Dimension(1280, 720));  
+        //setPreferredSize(new Dimension(1280, 720));  
         loadTileImages();  
         setBackground(new Color(0, 134, 89));
     }  
 
     private void loadTileImages() {  
         tileImages = new HashMap<>();  
-        String[] tileTypes = {"down_left", "down_right", "down_straight", "up_straight", "up_left", "up_right", "left_straight", "left_up", "left_down", "right_straight", "right_down", "right_up", "grass", "finish", "start", "barrier"};
+        String[] tileTypes = {"down_left", "down_right", "down_straight", "up_straight", "up_left", "up_right", "left_straight", "left_up", "left_down", "right_straight", "right_down", "right_up", "grass", "finish", "start", "barrier", "tarmac"};
 
         for (String type : tileTypes) {  
             try {  
-                BufferedImage image = ImageIO.read(new File("textures/tiles/" + type + ".png"));  
+                BufferedImage image = ImageIO.read(new File("resources/textures/tiles/" + type + ".png"));  
                 tileImages.put(type, image);  
             } catch (IOException e) {  
                 System.err.println("Error loading texture for " + type + ": " + e.getMessage());  

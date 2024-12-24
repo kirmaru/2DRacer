@@ -23,43 +23,6 @@ public class Tile {
         this.isBarrier = type.equals("barrier"); 
     }
 
-    // public static Tile generateTile(Tile tile, Tile[][] track) {
-    //     Random rand = new Random();
-    //     Tile newTile = new Tile(tile.x, tile.y, tile.type);
-        
-    //     switch (tile.type) { //сделать в каждом случае массив, который содержит вероятностьи генерации каждого типа дороги
-    //         case "north" -> {
-    //             String[] typeSelect = {"north", "east", "west"};
-    //             int typeNumber = rand.nextInt(3);
-    //             newTile.y++; 
-    //             newTile.type = typeSelect[typeNumber];
-    //         }
-    //         case "south" -> {
-    //             String[] typeSelect = {"south", "east", "west"};
-    //             int typeNumber = rand.nextInt(3);
-    //             newTile.y--;
-    //             newTile.type = typeSelect[typeNumber];
-    //         }
-    //         case "east" -> {
-    //             String[] typeSelect = {"north", "south", "east"};
-    //             int typeNumber = rand.nextInt(3);
-    //             newTile.x++; 
-    //             newTile.type = typeSelect[typeNumber];
-    //         }
-    //         case "west" -> {
-    //             String[] typeSelect = {"north", "south", "west"};
-    //             int typeNumber = rand.nextInt(3);
-    //             newTile.x--; 
-    //             newTile.type = typeSelect[typeNumber];
-    //         }
-    //     }
-
-    //     if (isPositionOccupied(newTile, track)) {
-    //         return null; 
-    //     }
-    //     return newTile; 
-    // }
-
     private static boolean isPositionOccupied(Tile tile, Tile[][] track) {
         if (tile.x < 0 || tile.x >= track.length || tile.y < 0 || tile.y >= track[0].length) {
             return true; 
@@ -67,7 +30,6 @@ public class Tile {
         return track[tile.x][tile.y] != null; 
     }
 
-    // нужно добавить поддержку новых типов 
     private double setFriction(String type) {
         switch (type) {
             case "north":

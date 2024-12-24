@@ -12,7 +12,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class Player {
-    private static final String PLAYER_INFO_FILE = "logs/playerInfo.json";
+    private static final String PLAYER_INFO_FILE = "resources/logs/playerInfo.json";
 
     private Set<String> ownedCars;
     private int score;
@@ -70,7 +70,7 @@ public class Player {
         File file = new File(PLAYER_INFO_FILE);
         if (!file.exists()) {
             try {
-                file.getParentFile().mkdirs(); // Создаем папки, если их нет
+                file.getParentFile().mkdirs();
                 JSONObject initialData = new JSONObject();
                 initialData.put("score", 0);
                 initialData.put("ownedCars", new JSONArray());

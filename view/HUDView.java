@@ -6,7 +6,6 @@ import java.io.File;
 import java.io.IOException;
 import javax.imageio.ImageIO;
 import javax.swing.*;
-
 import model.Car;
 import model.RaceTimer;
 
@@ -29,7 +28,7 @@ public class HUDView extends JPanel {
 
     private void loadBackgroundImage() {
         try {
-            backgroundImage = ImageIO.read(new File("textures/dash.png"));
+            backgroundImage = ImageIO.read(new File("resources/textures/dash.png"));
         } catch (IOException e) {
             System.err.println("Error loading HUD background image: " + e.getMessage());
         }
@@ -37,7 +36,7 @@ public class HUDView extends JPanel {
     
     private void loadSteeringWheel() {
         try {
-            steeringWheel = ImageIO.read(new File("textures/steering_wheel.png"));
+            steeringWheel = ImageIO.read(new File("resources/textures/steering_wheel.png"));
         } catch (IOException e) {
             System.err.println("Error loading HUD wheel image: " + e.getMessage());
         }
@@ -45,7 +44,7 @@ public class HUDView extends JPanel {
 
     private void loadCustomFont() {
         try {
-            Font font = Font.createFont(Font.TRUETYPE_FONT, new File("resources/MOSCOW2024.ttf"));
+            Font font = Font.createFont(Font.TRUETYPE_FONT, new File("resources/fonts/MOSCOW2024.ttf"));
             GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
             ge.registerFont(font);
             customFont = font.deriveFont(Font.BOLD, 14);

@@ -1,4 +1,5 @@
 package panels;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -6,6 +7,9 @@ import javax.swing.*;
 import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
 
 public class RaceResultsDialog extends JDialog {
 
@@ -23,15 +27,21 @@ public class RaceResultsDialog extends JDialog {
     }
 
     private void loadRaceResults(JTextArea textArea) {
-        File resultsFile = new File("logs/race_results.json");
+        File resultsFile = new File("resources/logs/race_results.json");
         if (resultsFile.exists()) {
             try {
                 String content = new String(Files.readAllBytes(Paths.get(resultsFile.getPath())));
                 JSONArray resultsArray = new JSONArray(content);
 
-                StringBuilder resultsBuilder = new StringBuilder();
+                List<JSONObject> resultsList = new ArrayList<>();
                 for (int i = 0; i < resultsArray.length(); i++) {
-                    JSONObject result = resultsArray.getJSONObject(i);
+                    resultsList.add(resultsArray.getJSONObject(i));
+                }
+
+                resultsList.sort(Comparator.comparingDouble(result -> result.getDouble("elapsed_time")));
+
+                StringBuilder resultsBuilder = new StringBuilder();
+                for (JSONObject result : resultsList) {
                     double elapsedTime = result.getDouble("elapsed_time");
                     String dateCompleted = result.getString("date_completed");
                     String trackName = result.getString("track_name");

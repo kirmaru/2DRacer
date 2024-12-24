@@ -1,0 +1,7 @@
+{
+    "type": "ae86",
+    "maxSpeed": 1.5,
+    "acceleration": 0.3,
+    "brake": 2.0,
+    "friction": 1.3
+}

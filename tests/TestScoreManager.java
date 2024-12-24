@@ -10,7 +10,7 @@ public class TestScoreManager {
         ScoreManager scoreManager = new ScoreManager(player);
 
         System.out.println("Testing score addition...");
-        scoreManager.addPoints(50);
+        scoreManager.addPointsTime(50);
         System.out.println("Player score: " + scoreManager.getScore());
 
         System.out.println("Testing score spending...");

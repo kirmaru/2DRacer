@@ -3,7 +3,7 @@ package tests;
 import java.util.Scanner;
 import model.*;
 
-// Test Class for Car
+
 public class TestCar {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
@@ -31,7 +31,6 @@ public class TestCar {
         System.out.println("Car position: (" + car.x + ", " + car.y + ")");
 
         System.out.println("Testing turning...");
-        car.turnLeft();
         System.out.println("Car angle: " + car.getAngle());
     }
 }

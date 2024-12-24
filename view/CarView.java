@@ -5,7 +5,6 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import javax.imageio.ImageIO;
-
 import model.Car;
 
 public class CarView {
@@ -19,7 +18,7 @@ public class CarView {
 
     private void loadCarImage(String type) { 
         try { 
-            carImage = ImageIO.read(new File("textures/" + type + ".png")); 
+            carImage = ImageIO.read(new File("resources/textures/" + type + ".png")); 
         } catch(IOException e){ 
             e.printStackTrace(); 
             System.err.println("Error loading car image."); 

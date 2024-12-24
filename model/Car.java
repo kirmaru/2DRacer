@@ -83,7 +83,6 @@ public class Car {
             }
             if(nextTile != null && nextTile.type.equals("grass")){
                 if(speed > 0) speed *=0.6;
-                System.out.println("grass");
             }
 
         }
@@ -186,5 +185,5 @@ public class Car {
 
     public String getType(){ return type; }
 
-    public boolean isAccelerating() { return isAccelerating; } // Геттер для флага ускорения
+    public boolean isAccelerating() { return isAccelerating; } 
 }

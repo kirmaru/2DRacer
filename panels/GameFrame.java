@@ -1,12 +1,8 @@
 package panels;
+
 import controls.CarController;
-import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
-import javax.imageio.ImageIO;
 import javax.swing.*;
 import model.Car;
 import model.RaceTimer;
@@ -19,7 +15,7 @@ public class GameFrame extends JLayeredPane {
     private static final double TIME_STEP = 0.02;
     private double deltaTime = 0;
     private Car car;
-
+    private GameWindow gameWindow;
     private String generationType;
     private String trackName;
     private RaceTimer raceTimer;
@@ -28,24 +24,25 @@ public class GameFrame extends JLayeredPane {
 
     private PauseMenuPanel pauseMenuPanel; 
 
-    public GameFrame(String generationType, String trackName, String carType) {
+    public GameFrame(String generationType, String trackName, String carType, GameWindow gameWindow) {
         this.generationType = generationType;
         this.trackName = trackName;
+        this.gameWindow = gameWindow;
 
         Track track = new Track(0, 0);
 
         if ("random".equals(generationType)) {
             System.out.println("Случайная генерация трассы.");
         } else if ("image".equals(generationType)) {
-            track.loadTrackFromImage("tracks/" + trackName);
+            track.loadTrackFromImage("resources/tracks/" + trackName);
             System.out.println("Загрузка трассы из изображения: " + trackName);
         } else if ("text".equals(generationType)) {
-            track.loadTrack("tracks/" + trackName);
+            track.loadTrack("resources/tracks/" + trackName);
             System.out.println("Загрузка трассы из текстового файла: " + trackName);
         }
-
-        car = new Car(track.start.x, track.start.y, 0);
-        car.loadFromJson("cars/" + carType + ".json");
+        
+        car = new Car(track.start.x - 1, track.start.y, 0);
+        car.loadFromJson("resources/cars/" + carType + ".json");
 
         raceTimer = new RaceTimer(trackName, generationType);
 
@@ -73,7 +70,14 @@ public class GameFrame extends JLayeredPane {
             }
         });
 
-        pauseMenuPanel = new PauseMenuPanel();
+        pauseMenuPanel = new PauseMenuPanel(
+            e -> resumeGame(), // Resume action
+            e -> {
+                resumeGame(); // Resume game before going to main menu
+                gameWindow.showMainMenu();
+            }
+        );
+        
         pauseMenuPanel.setBounds(0, 0, 1280, 720);
         pauseMenuPanel.setVisible(false); 
         add(pauseMenuPanel, Integer.valueOf(2));
@@ -97,11 +101,16 @@ public class GameFrame extends JLayeredPane {
                             currentTile = track.getTile(tileX, tileY);
                         }
 
+                        // Check if the car has crossed the finish line
                         if (currentTile != null && "finish".equals(currentTile.type)) {
                             raceTimer.stop();
+                            showRaceResults(); // Show results when finishing
+                            break; // Exit loop after showing results
                         }
                     }
                 } else {
+                    car.move(TIME_STEP, track.getTrack());
+
                     int tileX = (int) Math.round(car.x);
                     int tileY = (int) Math.round(car.y);
 
@@ -139,41 +148,17 @@ public class GameFrame extends JLayeredPane {
     }
 
     public Car getCar() {
-        return car;
-    }
+       return car;
+   }
 
-    private class PauseMenuPanel extends JPanel {
-        private BufferedImage backgroundImage; 
-        public PauseMenuPanel() {
-            try {
-                backgroundImage = ImageIO.read(new File("textures/background.png"));
-            } catch (IOException e) {
-                System.err.println("Ошибка загрузки изображения фона: " + e.getMessage());
-            }
+   private void showRaceResults() {
+       String resultsText =
+           "Результаты заезда:\n" +
+           "Время: " + String.format("%.2f", raceTimer.getTime()) + " секунд\n" +
+           "Трасса: " + trackName + "\n" +
+           "Тип генерации: " + generationType;
 
-            setLayout(null);
-            setBackground(new Color(0, 0, 0, 150)); 
-
-            JButton resumeButton = new JButton("Продолжить");
-            resumeButton.setBounds(540, 300, 200, 50);
-            resumeButton.addActionListener(e -> resumeGame());
-            add(resumeButton);
-
-            JButton quitButton = new JButton("Выход");
-            quitButton.setBounds(540, 400, 200, 50);
-            quitButton.addActionListener(e -> System.exit(0));
-            add(quitButton);
-        }
-
-        @Override
-        protected void paintComponent(Graphics g) {
-            super.paintComponent(g);
-            if (backgroundImage != null) {
-                Graphics2D g2d = (Graphics2D) g;
-                g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.5f)); 
-                g2d.drawImage(backgroundImage, 0, 0, getWidth(), getHeight(), this);
-                g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1f)); 
-            }
-        }
-    }
+       pauseMenuPanel.displayResults(resultsText); 
+       pauseGame();
+   }
 }

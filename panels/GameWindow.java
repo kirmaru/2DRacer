@@ -2,7 +2,6 @@ package panels;
 
 import java.awt.*;
 import javax.swing.*;
-
 import model.Car;
 
 public class GameWindow extends JFrame {
@@ -10,14 +9,14 @@ public class GameWindow extends JFrame {
     private MainMenu mainMenu;
     private GameFrame gameFrame;
     private LevelEditor levelEditor;
-    private PauseController pauseController;
+    private Shop shop;
 
     public GameWindow() {
         setTitle("Racing Game");
         setPreferredSize(new Dimension(1280, 720));
         setResizable(false);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        ImageIcon img = new ImageIcon("textures/icon.png");
+        ImageIcon img = new ImageIcon("resources/textures/icon.png");
         setIconImage(img.getImage());
         mainMenu = new MainMenu(this);
         add(mainMenu, BorderLayout.CENTER);
@@ -27,8 +26,8 @@ public class GameWindow extends JFrame {
         if (gameFrame != null) {
             remove(gameFrame);
         }
-        gameFrame = new GameFrame(generationType, trackName, carType);
-        pauseController = new PauseController(gameFrame);
+        gameFrame = new GameFrame(generationType, trackName, carType, this);
+       //pauseController = new PauseController(gameFrame);
         
         add(gameFrame, BorderLayout.CENTER);
         mainMenu.setVisible(false);
@@ -44,6 +43,10 @@ public class GameWindow extends JFrame {
         if (levelEditor != null) {
             remove(levelEditor);
             levelEditor = null;
+        }
+        if (shop != null) {
+            remove(shop);
+            shop = null;
         }
         mainMenu.setVisible(true);
         revalidate();
@@ -65,6 +68,20 @@ public class GameWindow extends JFrame {
         repaint();
     }
 
+    public void showShop(Shop shop){
+        if(gameFrame!=null){
+            remove(gameFrame);
+            gameFrame = null;
+        }
+        if(this.shop != null){
+            remove(this.shop);
+        }
+        this.shop = shop;
+        add(this.shop, BorderLayout.CENTER);
+        mainMenu.setVisible(false);
+        revalidate();
+        repaint();
+    }
     public void showWindow() {
         pack();
         setVisible(true);

@@ -1,4 +1,5 @@
 package panels;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -12,143 +13,147 @@ import javax.swing.*;
 
 public class LevelEditor extends JPanel {
     private static final int BLOCK_SIZE = 50;
-    private int mapWidth = 10;
-    private int mapHeight = 10;
-    private BufferedImage[][] map;
-    private HashMap<String, BufferedImage> blockImages;
-    private String selectedBlock;
-    private JTextField levelNameField;
-    private JTextField widthField;
-    private JTextField heightField;
+    private static final int MAX_WIDTH = 17;
+    private static final int MAX_HEIGHT = 13;
+    private int mapWidth = 10; 
+    private int mapHeight = 10; 
+    private BufferedImage[][] map; 
+    private HashMap<String, BufferedImage> blockImages; 
+    private String selectedBlock; 
+    private JTextField levelNameField; 
+    private JTextField widthField; 
+    private JTextField heightField; 
 
     public LevelEditor() {
-        setLayout(new BorderLayout());
-        map = new BufferedImage[mapWidth][mapHeight];
-        blockImages = loadBlockImages();
-
-        BlockPanel blockPanel = new BlockPanel();
-        MapPanel mapPanel = new MapPanel();
-
-        JScrollPane scrollPane = new JScrollPane(mapPanel);
-        scrollPane.setPreferredSize(new Dimension(600, 600));
-
-        add(blockPanel, BorderLayout.EAST);
-        add(scrollPane, BorderLayout.CENTER);
+        setLayout(new BorderLayout()); 
+        map = new BufferedImage[mapWidth][mapHeight]; 
+        blockImages = loadBlockImages(); 
+        BlockPanel blockPanel = new BlockPanel(); 
+        MapPanel mapPanel = new MapPanel(); 
+        JScrollPane scrollPane = new JScrollPane(mapPanel); 
+        scrollPane.setPreferredSize(new Dimension(600, 600)); 
+        add(blockPanel, BorderLayout.EAST); 
+        add(scrollPane, BorderLayout.CENTER); 
     }
 
     private HashMap<String, BufferedImage> loadBlockImages() {
-        HashMap<String, BufferedImage> blocks = new HashMap<>();
-        String[] blockTypes = {"down_left", "down_right", "down_straight", "up_straight",
-                "up_left", "up_right", "left_straight", "left_up",
-                "left_down", "right_straight", "right_down", "right_up",
-                "grass", "finish", "start", "barrier"};
-
-        for (String type : blockTypes) {
-            try {
-                BufferedImage img = loadImage("textures/tiles/" + type + ".png");
-                if (img != null) {
-                    blocks.put(type, img);
-                }
-            } catch (IOException e) {
-                System.err.println("Failed to load image: " + type);
-                e.printStackTrace();
-            }
-        }
-        return blocks;
+        HashMap<String, BufferedImage> blocks = new HashMap<>(); 
+        String[] blockTypes = {"down_left", "down_right", "down_straight", "up_straight", "up_left", "up_right", "left_straight", "left_up", "left_down", "right_straight", "right_down", "right_up", "grass", "finish", "start", "barrier", "tarmac"}; 
+        
+        for (String type : blockTypes) { 
+            try { 
+                BufferedImage img = loadImage("resources/textures/tiles/" + type + ".png"); 
+                if (img != null) { 
+                    blocks.put(type, img); 
+                } 
+            } catch (IOException e) { 
+                System.err.println("Failed to load image: " + type); 
+                e.printStackTrace(); 
+            } 
+        } 
+        
+        return blocks; 
     }
 
-    private BufferedImage loadImage(String path) throws IOException {
-        File imgFile = new File(path);
-        if (!imgFile.exists()) {
-            throw new IOException("File not found: " + path);
-        }
-        BufferedImage img = ImageIO.read(imgFile);
-        if (img == null) {
-            throw new IOException("Failed to load image: " + path);
-        }
-        return img;
+    private BufferedImage loadImage(String path) throws IOException { 
+        File imgFile = new File(path); 
+        if (!imgFile.exists()) { 
+            throw new IOException("File not found: " + path); 
+        } 
+        
+        BufferedImage img = ImageIO.read(imgFile); 
+        
+        if (img == null) { 
+            throw new IOException("Failed to load image: " + path); 
+        } 
+        
+        return img; 
     }
 
     private class BlockPanel extends JPanel {
         public BlockPanel() {
-            setLayout(new GridLayout(0, 1));
+            setLayout(new GridLayout(0, 1)); 
 
-            levelNameField = new JTextField("Название трассы");
-            add(levelNameField);
+            levelNameField = new JTextField("Название трассы"); 
+            add(levelNameField); 
 
-            widthField = new JTextField(String.valueOf(mapWidth), 5);
-            heightField = new JTextField(String.valueOf(mapHeight), 5);
-            JButton resizeButton = new JButton("Изменить размер");
-            resizeButton.addActionListener(new ResizeAction());
+            widthField = new JTextField(String.valueOf(mapWidth), 5); 
+            heightField = new JTextField(String.valueOf(mapHeight), 5); 
 
-            JPanel sizePanel = new JPanel();
-            sizePanel.add(new JLabel("Ширина:"));
-            sizePanel.add(widthField);
-            sizePanel.add(new JLabel("Высота:"));
-            sizePanel.add(heightField);
-            sizePanel.add(resizeButton);
+            JButton resizeButton = new JButton("Изменить размер"); 
+            resizeButton.addActionListener(new ResizeAction()); 
 
-            add(sizePanel);
+            JPanel sizePanel = new JPanel(); 
+            sizePanel.add(new JLabel("Ширина:")); 
+            sizePanel.add(widthField); 
+            sizePanel.add(new JLabel("Высота:")); 
+            sizePanel.add(heightField); 
+            sizePanel.add(resizeButton); 
 
-            for (String type : blockImages.keySet()) {
-                JButton button = new JButton(type);
-                button.setIcon(new ImageIcon(blockImages.get(type).getScaledInstance(BLOCK_SIZE, BLOCK_SIZE, Image.SCALE_SMOOTH)));
-                button.addActionListener(e -> selectedBlock = type);
-                add(button);
-            }
+            add(sizePanel); 
 
-            JButton saveButton = new JButton("Сохранить трассу");
-            saveButton.addActionListener(new SaveAction());
-            add(saveButton);
+            for (String type : blockImages.keySet()) {  
+                JButton button = new JButton(type);  
+                button.setIcon(new ImageIcon(blockImages.get(type).getScaledInstance(BLOCK_SIZE, BLOCK_SIZE, Image.SCALE_SMOOTH)));  
+                button.addActionListener(e -> selectedBlock = type);  
+                add(button);  
+            } 
 
-            JButton loadButton = new JButton("Загрузить трассу");
-            loadButton.addActionListener(new LoadAction());
-            add(loadButton);
+            JButton saveButton = new JButton("Сохранить трассу");  
+            saveButton.addActionListener(new SaveAction());  
+            add(saveButton);  
 
-            JButton loadFromListButton = new JButton("Загрузить трассу из списка");
-            loadFromListButton.addActionListener(new LoadFromListAction());
-            add(loadFromListButton);
+            JButton loadButton = new JButton("Загрузить трассу");  
+            loadButton.addActionListener(new LoadAction());  
+            add(loadButton);  
 
-            JButton newLevelButton = new JButton("Создать новую трассу");
-            newLevelButton.addActionListener(new NewLevelAction());
-            add(newLevelButton);
+            JButton loadFromListButton = new JButton("Загрузить трассу из списка");  
+            loadFromListButton.addActionListener(new LoadFromListAction());  
+            add(loadFromListButton);  
 
-            JButton backToMenuButton = new JButton("Назад в меню");
-            backToMenuButton.addActionListener(e -> {
-                ((GameWindow) SwingUtilities.getWindowAncestor(LevelEditor.this)).showMainMenu();
-            });
-            add(backToMenuButton);
-        }
+            JButton newLevelButton = new JButton("Создать новую трассу");  
+            newLevelButton.addActionListener(new NewLevelAction());  
+            add(newLevelButton);  
+
+            JButton backToMenuButton = new JButton("Назад в меню");  
+            backToMenuButton.addActionListener(e -> {  
+                ((GameWindow) SwingUtilities.getWindowAncestor(LevelEditor.this)).showMainMenu();  
+            });  
+            
+            add(backToMenuButton);  
+        }  
     }
 
-    private class ResizeAction implements ActionListener {
+    private class ResizeAction implements ActionListener {  
         @Override
-        public void actionPerformed(ActionEvent e) {
-            try {
-                int newWidth = Integer.parseInt(widthField.getText().trim());
-                int newHeight = Integer.parseInt(heightField.getText().trim());
+        public void actionPerformed(ActionEvent e) {  
+            try {  
+                int newWidth = Integer.parseInt(widthField.getText().trim());  
+                int newHeight = Integer.parseInt(heightField.getText().trim());  
 
-                if (newWidth > 0 && newHeight > 0) {
-                    mapWidth = newWidth;
-                    mapHeight = newHeight;
-                    map = new BufferedImage[mapWidth][mapHeight];
-                    repaint();
-                    JOptionPane.showMessageDialog(LevelEditor.this, "Размер трассы изменен!", "Изменение размера", JOptionPane.INFORMATION_MESSAGE);
-                } else {
-                    JOptionPane.showMessageDialog(LevelEditor.this, "Ширина и высота должны быть больше нуля.", "Ошибка", JOptionPane.ERROR_MESSAGE);
-                }
-            } catch (NumberFormatException ex) {
-                JOptionPane.showMessageDialog(LevelEditor.this, "Введите корректные числовые значения.", "Ошибка", JOptionPane.ERROR_MESSAGE);
-            }
-        }
+                if (newWidth > 0 && newWidth <= MAX_WIDTH && newHeight > 0 && newHeight <= MAX_HEIGHT) {  
+                    mapWidth = newWidth;  
+                    mapHeight = newHeight;  
+                    map = new BufferedImage[mapWidth][mapHeight];  
+                    repaint();  
+                    JOptionPane.showMessageDialog(LevelEditor.this, "Размер трассы изменен!", "Изменение размера", JOptionPane.INFORMATION_MESSAGE);  
+                } else {  
+                    JOptionPane.showMessageDialog(LevelEditor.this, "Ширина должна быть от 1 до " + MAX_WIDTH + ", а высота от 1 до " + MAX_HEIGHT + ".", "Ошибка", JOptionPane.ERROR_MESSAGE);  
+                }  
+                
+            } catch (NumberFormatException ex) {  
+                JOptionPane.showMessageDialog(LevelEditor.this, "Введите корректные числовые значения.", "Ошибка", JOptionPane.ERROR_MESSAGE);  
+            }  
+        }  
     }
+
 
     private class SaveAction implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
             String levelName = levelNameField.getText().trim();
 
-            try (BufferedWriter writer = new BufferedWriter(new FileWriter("tracks/" + levelName + ".txt"))) {
+            try (BufferedWriter writer = new BufferedWriter(new FileWriter("resources/tracks/" + levelName + ".txt"))) {
                 writer.write(mapWidth + "," + mapHeight);
                 writer.newLine();
 
