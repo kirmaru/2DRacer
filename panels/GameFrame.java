@@ -31,12 +31,7 @@ public class GameFrame extends JLayeredPane {
 
         Track track = new Track(0, 0);
 
-        if ("random".equals(generationType)) {
-            System.out.println("Случайная генерация трассы.");
-        } else if ("image".equals(generationType)) {
-            track.loadTrackFromImage("resources/tracks/" + trackName);
-            System.out.println("Загрузка трассы из изображения: " + trackName);
-        } else if ("text".equals(generationType)) {
+        if ("text".equals(generationType)) {
             track.loadTrack("resources/tracks/" + trackName);
             System.out.println("Загрузка трассы из текстового файла: " + trackName);
         }

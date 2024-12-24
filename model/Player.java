@@ -72,7 +72,7 @@ public class Player {
             try {
                 file.getParentFile().mkdirs();
                 JSONObject initialData = new JSONObject();
-                initialData.put("score", 0);
+                initialData.put("score", 1500);
                 initialData.put("ownedCars", new JSONArray());
                 initialData.put("selectedCar", JSONObject.NULL);
 

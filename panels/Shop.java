@@ -53,7 +53,7 @@ public class Shop extends JPanel {
         String carType = carTypes[currentPage];
         boolean owned = player.getOwnedCars().contains(carType);
         boolean isSelected = carType.equals(player.getSelectedCar());
-        JButton actionButton = new JButton(owned ? (isSelected ? "Select" : "Select") : "Purchase");
+        JButton actionButton = new JButton(owned ? (isSelected ? "Selected" : "Select") : "Purchase");
 
         actionButton.addActionListener(e -> handleCarAction(carType, owned));
 

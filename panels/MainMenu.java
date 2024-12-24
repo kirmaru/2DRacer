@@ -153,7 +153,7 @@ public class MainMenu extends JLayeredPane {
                     tracks,
                     tracks[0]);
 
-            if (selectedTrack != null && !player.getSelectedCar().equals("null")) {
+            if (selectedTrack != null && player.getSelectedCar() != null ) {
                 String type = selectedTrack.endsWith(".png") ? "image" : "text";
                 gameWindow.startGame(type, selectedTrack, player.getSelectedCar());
             }

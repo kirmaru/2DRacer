@@ -71,7 +71,7 @@ public class RaceTimer {
             this.paused = false;
             printElapsedTime();
             saveResults(); 
-            scoreManager.addPoints(seconds);
+            scoreManager.addPointsTime(seconds);
         }
     }
 
