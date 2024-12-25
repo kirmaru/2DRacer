@@ -1,21 +1,21 @@
 package tests;
 
-import model.*;
+import model.Player;
+import model.ScoreManager;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-public class TestScoreManager {
-    public static void main(String[] args) {
-        System.out.println("Initializing Player and ScoreManager...");
+import static org.junit.jupiter.api.Assertions.*;
 
-        Player player = new Player();
-        ScoreManager scoreManager = new ScoreManager(player);
+class TestScoreManager {
+    private Player player;
+    private ScoreManager scoreManager;
 
-        System.out.println("Testing score addition...");
-        scoreManager.addPointsTime(50);
-        System.out.println("Player score: " + scoreManager.getScore());
-
-        System.out.println("Testing score spending...");
-        boolean success = scoreManager.spendPoints(30);
-        System.out.println("Points spent: " + success);
-        System.out.println("Remaining score: " + scoreManager.getScore());
+    @BeforeEach
+    void setUp() {
+        // Инициализация Player и ScoreManager перед каждым тестом
+        player = new Player();
+        scoreManager = new ScoreManager(player);
     }
+    
 }

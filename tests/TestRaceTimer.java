@@ -1,26 +1,18 @@
 package tests;
 
-import java.util.Scanner;
-import model.*;
+import model.RaceTimer;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
+import static org.junit.jupiter.api.Assertions.*;
 
-public class TestRaceTimer {
-    public static void main(String[] args) throws InterruptedException {
-        Scanner scanner = new Scanner(System.in);
-        System.out.println("Initializing RaceTimer...");
+class TestRaceTimer {
+    private RaceTimer timer;
 
-        System.out.print("Enter track name: ");
-        String trackName = scanner.nextLine();
-
-        System.out.print("Enter generation type: ");
-        String generationType = scanner.nextLine();
-
-        RaceTimer timer = new RaceTimer(trackName, generationType);
-
-        System.out.println("Starting timer...");
-        timer.start();
-        Thread.sleep(2000); // Simulate elapsed time
-        timer.stop();
-        System.out.println("Elapsed time: " + timer.getTime() + " seconds");
+    @BeforeEach
+    void setUp() {
+        // Инициализация RaceTimer с заданными параметрами
+        timer = new RaceTimer("Test Track", "Standard");
     }
+
 }

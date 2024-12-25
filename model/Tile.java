@@ -23,7 +23,7 @@ public class Tile {
         this.isBarrier = type.equals("barrier"); 
     }
 
-    private static boolean isPositionOccupied(Tile tile, Tile[][] track) {
+    public static boolean isPositionOccupied(Tile tile, Tile[][] track) {
         if (tile.x < 0 || tile.x >= track.length || tile.y < 0 || tile.y >= track[0].length) {
             return true; 
         }

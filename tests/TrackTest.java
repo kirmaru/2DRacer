@@ -1,28 +1,33 @@
 package tests;
 
-import model.*;
+import model.Track;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-public class TrackTest {
-    public static void main(String[] args) {
-        testLoadTrackFromFile("resources/tracks/first.txt");
+import static org.junit.jupiter.api.Assertions.*;
+
+class TrackTest {
+    private Track track;
+
+    @BeforeEach
+    void setUp() {
+        track = new Track();
     }
 
-    private static void testLoadTrackFromFile(String filename) {
-        Track track = new Track();
+    @Test
+    void testLoadTrackFromFile() {
+        String filename = "resources/tracks/first.txt"; 
         track.loadTrack(filename);
 
-        if (track.start != null) {
-            System.out.println("Start point is at: (" + track.start.x + ", " + track.start.y + ")");
-        } else {
-            System.err.println("Start point not found.");
-        }
+        assertNotNull(track.start, "Start point should not be null");
+        System.out.println("Start point is at: (" + track.start.x + ", " + track.start.y + ")");
 
-        if (track.finish != null) {
-            System.out.println("Finish point is at: (" + track.finish.x + ", " + track.finish.y + ")");
-        } else {
-            System.err.println("Finish point not found.");
-        }
+        assertNotNull(track.finish, "Finish point should not be null");
+        System.out.println("Finish point is at: (" + track.finish.x + ", " + track.finish.y + ")");
 
+        assertTrue(track.borderX > 0, "Track borderX should be greater than 0");
+        assertTrue(track.borderY > 0, "Track borderY should be greater than 0");
+        
         System.out.println("Track dimensions: " + track.borderX + " x " + track.borderY);
     }
 }

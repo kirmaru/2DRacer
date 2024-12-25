@@ -1,22 +1,31 @@
 package tests;
 
-import java.util.Scanner;
-import model.*;
+import model.Player;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-public class TestPlayer {
-    public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
-        System.out.println("Initializing Player...");
+import static org.junit.jupiter.api.Assertions.*;
 
-        Player player = new Player();
+class TestPlayer {
+    private Player player;
 
+    @BeforeEach
+    void setUp() {
+        player = new Player();
+    }
+
+    @Test
+    void testScoreAddition() {
         System.out.println("Testing score addition...");
         player.addScore(100);
-        System.out.println("Player score: " + player.getScore());
+        assertEquals(100, player.getScore(), "Player score should be 100 after adding 100");
+    }
 
+    @Test
+    void testCarManagement() {
         System.out.println("Testing car management...");
         player.addCar("Sedan");
         player.selectCar("Sedan");
-        System.out.println("Selected car: " + player.getSelectedCar());
+        assertEquals("Sedan", player.getSelectedCar(), "Selected car should be 'Sedan'");
     }
 }

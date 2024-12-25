@@ -3,6 +3,8 @@
         "."
     ],
     "java.project.referencedLibraries": [
-        "d:\\2DRacer\\lib\\json-20140107.jar"
+        "d:\\2DRacer\\lib\\json-20140107.jar",
+        "test-lib\\**\\*.jar",
+        "lib/json-20140107.jar"
     ]
 }
