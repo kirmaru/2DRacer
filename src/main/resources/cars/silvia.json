@@ -1,0 +1,8 @@
+{
+    "type": "silvia",
+    "brake": 3.5,
+    "friction": 0.9,
+    "turnRate": 3.0,
+    "gearSpeeds": [2.3, 2.8, 3.8], 
+    "gearAccelerations": [0.3, 0.3, 0.1]
+}
