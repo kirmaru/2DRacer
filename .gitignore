@@ -1,9 +1,0 @@
-target/
-.mvn/
-*.log
-*.class
-
-pom.xml.tag
-pom.xml.releaseBackup
-release.properties
-
